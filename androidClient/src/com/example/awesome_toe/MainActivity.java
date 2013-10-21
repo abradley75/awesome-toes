@@ -1,7 +1,6 @@
 package com.example.awesome_toe;
 
-import com.example.geoquiz.R;
-
+import com.example.awesome_toe.R;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -9,7 +8,7 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	
-	final String HOST_STRING = "sweb.uky.edu/~CABR222";
+	final String HOST_STRING = "sweb.uky.edu";
 	final int    PORT_NUMBER = 8080;
 	
 	static GameState m_state = null;
@@ -21,9 +20,19 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		m_textView = (TextView)findViewById(R.id.myTextView);
+		m_textView = (TextView)findViewById(R.id.my_text_view);
 		
-		m_client = new NetworkClient();
+		m_client = new NetworkClient(HOST_STRING, PORT_NUMBER);
+	}
+	
+	@Override
+	protected void onResume() {
+		try {
+			m_client.run();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override

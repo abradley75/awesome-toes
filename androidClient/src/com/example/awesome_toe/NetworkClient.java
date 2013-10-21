@@ -11,9 +11,21 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 //First parameter should be the host string, and 2nd should be the port as an integer.
 public class NetworkClient {
-    public void run(String[] args) throws Exception {
-        String host = args[0];
-        int port = Integer.parseInt(args[1]);
+	
+	private String host;
+	private int port;
+	
+	public NetworkClient( String in_host, int in_port) {
+		this.host = in_host;
+		this.port = in_port;		
+	}
+	
+	public NetworkClient() {
+		this("localhost", 8080);
+	}
+		
+    public void run() throws Exception {
+    	
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         
         try {
@@ -29,7 +41,7 @@ public class NetworkClient {
             });
             
             // Start the client.
-            ChannelFuture f = b.connect(host, port).sync(); // (5)
+            ChannelFuture f = b.connect(this.host, this.port).sync(); // (5)
 
             // Wait until the connection is closed.
             f.channel().closeFuture().sync();
