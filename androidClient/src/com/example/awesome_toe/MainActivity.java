@@ -1,6 +1,7 @@
 package com.example.awesome_toe;
 
 import com.example.awesome_toe.R;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -8,7 +9,7 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	
-	final String HOST_STRING = "sweb.uky.edu";
+	final String HOST_STRING = "192.168.1.112";
 	final int    PORT_NUMBER = 8080;
 	
 	static GameState m_state = null;
@@ -27,6 +28,7 @@ public class MainActivity extends Activity {
 	
 	@Override
 	protected void onResume() {
+		super.onResume();
 		try {
 			m_client.run();
 		} catch (Exception e) {
@@ -42,9 +44,24 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	public static void updateView() {
-		m_textView.setText(m_state.toString());
+	public void updateView() {
+		System.out.println("ABDEBUG: inside main updateView!");
 		
+//		Runnable mRunnable = new Runnable() {
+//		    @Override
+//		    public void run() {
+//		    	m_textView.setText(m_state.toString());
+//		    }
+//		};
+		
+		//runOnUiThread(mRunnable);
+	}
+	
+	
+	
+	public static void setState(int val) {
+		System.out.println("ABDEBUG: inside main setState!");
+		m_state.setValue(val);
 	}
 
 }

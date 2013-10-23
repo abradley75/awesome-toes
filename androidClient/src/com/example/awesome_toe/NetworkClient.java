@@ -5,9 +5,9 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.oio.OioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.channel.socket.oio.OioSocketChannel;
 
 //First parameter should be the host string, and 2nd should be the port as an integer.
 public class NetworkClient {
@@ -26,12 +26,12 @@ public class NetworkClient {
 		
     public void run() throws Exception {
     	
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        EventLoopGroup workerGroup = new OioEventLoopGroup();
         
         try {
             Bootstrap b = new Bootstrap(); // (1)
             b.group(workerGroup); // (2)
-            b.channel(NioSocketChannel.class); // (3)
+            b.channel(OioSocketChannel.class); // (3)
             b.option(ChannelOption.SO_KEEPALIVE, true); // (4)
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
@@ -42,6 +42,7 @@ public class NetworkClient {
             
             // Start the client.
             ChannelFuture f = b.connect(this.host, this.port).sync(); // (5)
+            System.out.println("ABDEBUG: Client setup!");
 
             // Wait until the connection is closed.
             f.channel().closeFuture().sync();
