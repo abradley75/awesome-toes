@@ -14,14 +14,16 @@ public class NetworkClient {
 	
 	private String host;
 	private int port;
+	private OnDataPass m_handler;
 	
-	public NetworkClient( String in_host, int in_port) {
+	public NetworkClient( String in_host, int in_port, OnDataPass handler) {
 		this.host = in_host;
-		this.port = in_port;		
+		this.port = in_port;
+		this.m_handler = handler;
 	}
 	
 	public NetworkClient() {
-		this("localhost", 8080);
+		this("localhost", 8080, null);
 	}
 		
     public void run() throws Exception {
@@ -36,7 +38,7 @@ public class NetworkClient {
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new MessageDecoder(), new NetworkClientHandler());
+                    ch.pipeline().addLast(new MessageDecoder(), new NetworkClientHandler(m_handler));
                 }
             });
             

@@ -5,9 +5,9 @@ import android.app.Activity;
 import android.view.Menu;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnDataPass {
 	
-	final String HOST_STRING = "192.168.1.112";
+	final String HOST_STRING = "192.168.1.129";
 	final int    PORT_NUMBER = 8080;
 	
 	static GameState m_state = null;
@@ -19,9 +19,14 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		//Handle to activity 
+		OnDataPass dataPasser = (OnDataPass)this;
+		
 		m_textView = (TextView)findViewById(R.id.playerPieceMsg);
 		
-		m_client = new NetworkClient(HOST_STRING, PORT_NUMBER);
+		m_state = new GameState(dataPasser);
+		
+		m_client = new NetworkClient(HOST_STRING, PORT_NUMBER, dataPasser);
 	}
 	
 	@Override
@@ -42,24 +47,27 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	public void updateView() {
+	public void updateUI() {
 		System.out.println("ABDEBUG: inside main updateView!");
-		
-//		Runnable mRunnable = new Runnable() {
-//		    @Override
-//		    public void run() {
-//		    	m_textView.setText(m_state.toString());
-//		    }
-//		};
-		
-		//runOnUiThread(mRunnable);
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				m_textView.setText(m_state.toString());;
+			}
+		});
 	}
-	
-	
 	
 	public static void setState(int val) {
 		System.out.println("ABDEBUG: inside main setState!");
 		m_state.setValue(val);
+	}
+
+	@Override
+	public void updateGameState(int in_num) {
+		m_state.setValue(in_num);
+		m_state.updateUI();
+		
 	}
 
 }

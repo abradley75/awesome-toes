@@ -6,16 +6,21 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class NetworkClientHandler extends ChannelInboundHandlerAdapter {
-	 @Override
+	
+	private OnDataPass datapasser;
+	
+	 public NetworkClientHandler(OnDataPass m_handler) {
+		datapasser = m_handler;		
+	}
+	@Override
 	    public void channelRead(ChannelHandlerContext ctx, Object msg) {
 		 System.out.println("ABDEBUG: in clienthandler channelRead!");
 		 
 	        UpdatePacket m = (UpdatePacket) msg; // (1)
 	        try {
-	            long currentTimeMillis = (m.value() - 2208988800L) * 1000L;
-	            System.out.println(new Date(currentTimeMillis));
-	            MainActivity.setState((int)currentTimeMillis);;
-	            //MainActivity.updateView();
+	            long currentTimeMillis = (m.value())/* - 2208988800L) * 1000L*/;
+	            System.out.println("ABDEBUG: Updated gameState from network handler with - " + new Date(currentTimeMillis));
+	            datapasser.updateGameState((int)currentTimeMillis);
 	            ctx.close();
 	        } finally {
 	        }

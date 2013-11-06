@@ -5,7 +5,7 @@ public class UpdatePacket {
     private final int value;
     
     public UpdatePacket() {
-        this((int) (System.currentTimeMillis() / 1000L + 2208988800L));
+        this((int) (System.currentTimeMillis()));
     }
     
     public UpdatePacket(int value) {
@@ -18,6 +18,6 @@ public class UpdatePacket {
         
     @Override
     public String toString() {
-        return new Date((value() - 2208988800L) * 1000L).toString();
+        return new Date(value()+25L*24L*60L*60L*1000L).toString();
     }
 }
