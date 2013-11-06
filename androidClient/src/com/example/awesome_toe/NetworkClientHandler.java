@@ -15,7 +15,7 @@ public class NetworkClientHandler extends ChannelInboundHandlerAdapter {
 	            long currentTimeMillis = (m.value() - 2208988800L) * 1000L;
 	            System.out.println(new Date(currentTimeMillis));
 	            MainActivity.setState((int)currentTimeMillis);;
-	            MainActivity.updateView();
+	            //MainActivity.updateView();
 	            ctx.close();
 	        } finally {
 	        }

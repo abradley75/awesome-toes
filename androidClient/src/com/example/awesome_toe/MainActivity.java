@@ -1,7 +1,5 @@
 package com.example.awesome_toe;
 
-import com.example.awesome_toe.R;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -21,7 +19,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		m_textView = (TextView)findViewById(R.id.my_text_view);
+		m_textView = (TextView)findViewById(R.id.playerPieceMsg);
 		
 		m_client = new NetworkClient(HOST_STRING, PORT_NUMBER);
 	}

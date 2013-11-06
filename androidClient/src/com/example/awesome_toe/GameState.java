@@ -21,7 +21,7 @@ public class GameState {
 	}
 
 	public void update() {
-		MainActivity.updateView();
+		//MainActivity.updateView();
 	}
 	
 	public String toString() {
