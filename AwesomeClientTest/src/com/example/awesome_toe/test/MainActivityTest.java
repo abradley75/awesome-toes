@@ -1,10 +1,12 @@
 package com.example.awesome_toe.test;
 
-import android.test.ActivityUnitTestCase;
+import android.test.ActivityInstrumentationTestCase2;
 
-public class MainActivityTest extends ActivityUnitTestCase {
+import com.example.awesome_toe.MainActivity;
 
-	public MainActivityTest(Class activityClass) {
+public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
+
+	public MainActivityTest(Class<MainActivity> activityClass) {
 		super(activityClass);
 		// TODO Auto-generated constructor stub
 	}
