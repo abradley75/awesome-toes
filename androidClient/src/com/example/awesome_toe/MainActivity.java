@@ -11,7 +11,7 @@ public class MainActivity extends Activity implements OnDataPass {
 	final int    PORT_NUMBER = 8080;
 	
 	static GameState m_state = null;
-	NetworkClient m_client = null;
+	static NetworkClient m_client = null;
 	static TextView m_textView = null;
 	
 	@Override
@@ -61,6 +61,18 @@ public class MainActivity extends Activity implements OnDataPass {
 	public static void setState(int val) {
 		System.out.println("ABDEBUG: inside main setState!");
 		m_state.setValue(val);
+	}
+	
+	public GameState getState() {
+		return m_state;
+	}
+	
+	public TextView getTextView() {
+		return m_textView;
+	}
+	
+	public NetworkClient getClient() {
+		return m_client;
 	}
 
 	@Override
