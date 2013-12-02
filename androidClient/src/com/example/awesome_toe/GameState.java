@@ -42,6 +42,10 @@ public class GameState {
 	public void updateUI() {
 		datapasser.updateUI();
 	}
+	
+	public OnDataPass _getDataPassHandler() {
+		return datapasser;
+	}
 	/*public GameState(int in_num) {
 		this.m_value = in_num;
 	}*/

@@ -32,18 +32,12 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), outerLayout);
 	}
 	
-	public void testSetState() throws Exception {
-		assertEquals("Make sure initial state is default -1", activity.getState().getValue(), -1); // State should not have been set yet
-		MainActivity.setState(5);
-		assertEquals("Make sure state is set after call", activity.getState().getValue(), 5);
-	}
-	
-	public void testUpdateGameState() throws Exception {
-		activity.updateGameState(10);
-		TextView view = activity.getTextView();
-		ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), view);
-		getInstrumentation().waitForIdleSync();
-		assertEquals("Text should be 10", "10", view.getText());
-	}
+//	public void testUpdateGameState() throws Exception {
+//		activity.updateGameState(10);
+//		TextView view = activity.getTextView();
+//		ViewAsserts.assertOnScreen(activity.getWindow().getDecorView(), view);
+//		getInstrumentation().waitForIdleSync();
+//		assertEquals("Text should be 10", "10", view.getText());
+//	}
 
 }
