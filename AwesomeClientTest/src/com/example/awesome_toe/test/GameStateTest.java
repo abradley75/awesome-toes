@@ -22,31 +22,20 @@ public class GameStateTest extends InstrumentationTestCase {
 	
 	public void testInitializedProperly() throws Exception {
 		assertNotNull(testState);
-		assertEquals("Value should be -1", -1, testState.getValue());
+		assertEquals("Value should be 0", 0, testState.m_tScore);
+		assertEquals("Value should be 0", 0, testState.m_oScore);
+		assertEquals("Value should be 0", 0, testState.m_eScore);
 	}
 	
 	public void testAddingHandler() throws Exception {
 		MainActivity act = new MainActivity();
 		testState = new GameState((OnDataPass)act);
-		assertEquals("Value should be -1", -1, testState.getValue());
 		assertEquals("handler should be activity", (OnDataPass) act, testState._getDataPassHandler());
 	}
-	
-	public void testConstructorWithValueSet() throws Exception {
-		testState = new GameState(5);
-		assertEquals("Value should be 5", 5, testState.getValue());
-	}
 
-	public void testGetSetValue() throws Exception {
-		assertEquals("Value should be -1", -1, testState.getValue());
-		testState.setValue(7);
-		assertEquals("Value should be 7", 7, testState.getValue());
-	}
-
-	public void testToString() throws Exception {
-		testState.setValue(3);
-		assertEquals("Should print string of 3", "3", testState.toString());
-	}
+//	public void testToString() throws Exception {
+//		//TODO toString was removed...
+//	}
 	
 	public void testUpdateUI() throws Exception {
 		
