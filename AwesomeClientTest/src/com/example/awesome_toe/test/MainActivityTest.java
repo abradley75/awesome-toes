@@ -33,7 +33,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	}
 	
 	public void testSetState() throws Exception {
-		assertEquals("Make sure initial state is default -1", activity.getState().getValue(), -1); // State should not have been set yet
+		assertEquals("Make sure initial state is default -1", -1, activity.getState().getValue()); // State should not have been set yet
 		MainActivity.setState(5);
 		assertEquals("Make sure state is set after call", activity.getState().getValue(), 5);
 	}

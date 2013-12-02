@@ -15,6 +15,10 @@ public class GameState {
 		
 	}
 	
+	public OnDataPass _getDataPassHandler() {
+		return datapasser;
+	}
+	
 	public GameState(int in_num) {
 		this.m_value = in_num;
 	}
