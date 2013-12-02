@@ -1,5 +1,7 @@
 public class GameServerState {
 	
+	public static GameServerState m_instance;
+	
 	public int m_tScore, m_oScore, m_eScore; //made public so we dont need getter and setter for each
 	
 	public final static int BOARDSIZE = 5; // Size of board
@@ -10,8 +12,15 @@ public class GameServerState {
 
 	private boolean gameEnd = false;
 	
-	public GameServerState() {
+	private GameServerState() {
 		initializeGameServer();
+	}
+	
+	public static GameServerState getInstance() {
+		if (m_instance == null) {
+			m_instance = new GameServerState();
+		}
+		return m_instance;
 	}
 	
 	private void initializeGameServer(){
@@ -63,5 +72,9 @@ public class GameServerState {
 
 	public void setPlayerTurn(char playerTurn) {
 		this.m_playerTurn = playerTurn;
+	}
+	
+	public UpdatePacket createUpdatePacket() {
+		return new UpdatePacket(m_playerPiece, m_board, gameEnd);
 	}
 }

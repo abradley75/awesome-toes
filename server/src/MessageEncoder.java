@@ -6,7 +6,7 @@ public class MessageEncoder extends MessageToByteEncoder<UpdatePacket> {
     @Override
     protected void encode(ChannelHandlerContext ctx, UpdatePacket msg, ByteBuf out) {
     	
-    	//Total buffer size is: 54 bytes (2 for turn + 50 for board + 2 for endgame flag)
+    	//Total buffer size is: 56 bytes (2 for turn + 50 for board + 4 for endgame flag)
     	
         out.writeChar(msg.getPlayerTurn());
         char[][] board = msg.getBoardState();

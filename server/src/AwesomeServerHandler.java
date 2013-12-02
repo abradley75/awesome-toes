@@ -8,7 +8,7 @@ public class AwesomeServerHandler extends ChannelInboundHandlerAdapter {
 	
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) {
-		UpdatePacket u = new UpdatePacket();
+		UpdatePacket u = GameServerState.getInstance().createUpdatePacket();
 		System.out.println("Push: " + u.toString());
 	    ChannelFuture f = ctx.writeAndFlush(u);
 	    f.addListener(ChannelFutureListener.CLOSE);
