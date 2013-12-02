@@ -1,5 +1,7 @@
 package com.example.awesome_toe;
 
+import com.example.awesome_toe.R.drawable;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,12 +18,11 @@ public class MainActivity extends Activity implements OnDataPass {
 	
 	static GameState m_state = null;
 	static NetworkClient m_client = null;
-	static TextView m_textView = null;
 	
-	static TextView tScore, oScore, eScore; //text view for scores
-	static ImageView playerPiece, playerTurn;//image view for player piece and player turn
+	public static TextView tScore, oScore, eScore; //text view for scores
+	public static ImageView playerPiece, playerTurn;//image view for player piece and player turn
 	
-	static ImageButton[][] boardButtons = new ImageButton[5][5];//2d array for buttons	
+	public static ImageButton[][] boardButtons = new ImageButton[GameState.BOARDSIZE][GameState.BOARDSIZE]; //2d array for buttons	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +31,7 @@ public class MainActivity extends Activity implements OnDataPass {
 		
 		//Handle to activity 
 		OnDataPass dataPasser = (OnDataPass)this;
-		
-		m_textView = (TextView)findViewById(R.id.playerPieceMsg);		
+				
 		m_state = new GameState(dataPasser);		
 		m_client = new NetworkClient(HOST_STRING, PORT_NUMBER, dataPasser);
 		
@@ -46,13 +46,13 @@ public class MainActivity extends Activity implements OnDataPass {
 		playerPiece = (ImageView)findViewById(R.id.playerPiece);
 		playerTurn = (ImageView)findViewById(R.id.playerTurn);
 		
-		for(int i=0; i<5; i++)
-			for(int j=0; j<5; j++){
+		for(int i=0; i<GameState.BOARDSIZE; i++) {
+			for(int j=0; j<GameState.BOARDSIZE; j++){
 				int resId = getResources().getIdentifier("board"+Integer.toString(i)+Integer.toString(j), "id", "com.example.awesome_toe");
 				boardButtons[i][j] = (ImageButton)findViewById(resId);
-				boardButtons[i][j].setOnClickListener(boardButtonHandler);
-				
+				boardButtons[i][j].setOnClickListener(boardButtonHandler);		
 			}
+		}
 	}
 	
 	View.OnClickListener boardButtonHandler = new View.OnClickListener() {
@@ -62,8 +62,8 @@ public class MainActivity extends Activity implements OnDataPass {
 			// TODO Auto-generated method stub
 			int row = -1, col = -1;
 			
-			for(int i=0; i<5; i++)
-				for(int j=0; j<5; j++){
+			for(int i=0; i<GameState.BOARDSIZE; i++)
+				for(int j=0; j<GameState.BOARDSIZE; j++){
 					if(v.getId() == boardButtons[i][j].getId()){
 						row = i;
 						col = j;
@@ -108,32 +108,62 @@ public class MainActivity extends Activity implements OnDataPass {
 				eScore.setText(Integer.toString(m_state.m_eScore));
 				//need to set player piece, player turn and board
 				//m_textView.setText(m_state.toString());;
+				
+				if(setBoardUI() == -1)
+					gracefullyFailAndReset();//TODO handle invalid setBoard
 			}
+
 		});
 	}
 	
-	public static void setState(int val) {
-		System.out.println("ABDEBUG: inside main setState!");
-		//m_state.setValue(val);
+	protected void gracefullyFailAndReset() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	//this function returns 0 is success. -1 means there is an invalid state and should gracefully fail.
+	private int setBoardUI() {
+		for (int i = 0 ; i < GameState.BOARDSIZE; i++) {
+			for( int j = 0; j < GameState.BOARDSIZE; j++) {
+				int resId = getResources().getIdentifier("board"+Integer.toString(i)+Integer.toString(j), "id", "com.example.awesome_toe");
+				ImageButton selView = (ImageButton)findViewById(resId);
+				
+				char[][] board = m_state.getBoard();
+				char piece = board[i][j];
+				
+				switch (piece) {
+					case 'a':
+						selView.setImageResource(drawable.back);
+						break;
+					case 't':
+						selView.setImageResource(drawable.t);
+						break;
+					case 'o':
+						selView.setImageResource(drawable.o);
+						break;
+					case 'e':
+						selView.setImageResource(drawable.e);
+						break;
+					default:
+						return -1; // Should never happen		
+						
+				}
+			}
+		}
+		return 0;		
 	}
 	
-	public GameState getState() {
+	public static GameState getState() {
 		return m_state;
 	}
 	
-	public TextView getTextView() {
-		return m_textView;
-	}
-	
-	public NetworkClient getClient() {
+	public static NetworkClient getClient() {
 		return m_client;
 	}
 
 	@Override
-	public void updateGameState(int in_num) {
-		//m_state.setValue(in_num);
-		m_state.updateUI();
+	public void updateGameState(UpdatePacket m) {
+		// TODO Auto-generated method stub
 		
 	}
-
 }

@@ -3,6 +3,7 @@ package com.example.awesome_toe.test;
 import com.example.awesome_toe.GameState;
 import com.example.awesome_toe.MainActivity;
 import com.example.awesome_toe.OnDataPass;
+import com.example.awesome_toe.UpdatePacket;
 
 import android.test.InstrumentationTestCase;
 
@@ -25,6 +26,15 @@ public class GameStateTest extends InstrumentationTestCase {
 		assertEquals("Value should be 0", 0, testState.m_tScore);
 		assertEquals("Value should be 0", 0, testState.m_oScore);
 		assertEquals("Value should be 0", 0, testState.m_eScore);
+		
+		char[][] board = testState.getBoard();
+		
+		for(int i = 0 ; i < GameState.BOARDSIZE ; i++) {
+			for(int j = 0 ; j < GameState.BOARDSIZE ; j++) {
+				assertEquals("Should always be 'a'", 'a' , board[i][j]);
+			}
+		}
+		
 	}
 	
 	public void testAddingHandler() throws Exception {
@@ -32,10 +42,6 @@ public class GameStateTest extends InstrumentationTestCase {
 		testState = new GameState((OnDataPass)act);
 		assertEquals("handler should be activity", (OnDataPass) act, testState._getDataPassHandler());
 	}
-
-//	public void testToString() throws Exception {
-//		//TODO toString was removed...
-//	}
 	
 	public void testUpdateUI() throws Exception {
 		
@@ -46,12 +52,10 @@ public class GameStateTest extends InstrumentationTestCase {
 			@Override
 			public void updateUI() {
 				funcCalled = true;
-				
 			}
 
 			@Override
-			public void updateGameState(int in_num) {
-				// TODO Auto-generated method stub	
+			public void updateGameState(UpdatePacket m) {	
 			}	
 		};
 		

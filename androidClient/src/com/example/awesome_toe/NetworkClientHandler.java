@@ -1,7 +1,5 @@
 package com.example.awesome_toe;
 
-import java.util.Date;
-
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -18,9 +16,7 @@ public class NetworkClientHandler extends ChannelInboundHandlerAdapter {
 		 
 	        UpdatePacket m = (UpdatePacket) msg; // (1)
 	        try {
-	            long currentTimeMillis = (m.value())/* - 2208988800L) * 1000L*/;
-	            System.out.println("ABDEBUG: Updated gameState from network handler with - " + new Date(currentTimeMillis));
-	            datapasser.updateGameState((int)currentTimeMillis);
+	            datapasser.updateGameState(m);
 	            ctx.close();
 	        } finally {
 	        }

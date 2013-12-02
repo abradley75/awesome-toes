@@ -4,10 +4,12 @@ public class UpdatePacket {
     
 	private final char playerTurn;
 	private final char[][] boardState; 
+	private final boolean gameEnd;
     
-    public UpdatePacket(char in_playerTurn, char[][] in_boardState) {
+    public UpdatePacket(char in_playerTurn, char[][] in_boardState, boolean in_gameEnd) {
         this.playerTurn = in_playerTurn;
         this.boardState = in_boardState;
+        this.gameEnd = in_gameEnd;
     }
         
     public char getPlayerTurn() {
@@ -18,7 +20,11 @@ public class UpdatePacket {
     	return boardState;
     }
         
-    // Prints board contents row order first.
+    public boolean isGameEnd() {
+		return gameEnd;
+	}
+
+	// Prints board contents row order first.
     @Override
     public String toString() {
         String str1 = "**Update Packet** CurrentTurn: " + playerTurn;

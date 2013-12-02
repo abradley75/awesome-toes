@@ -1,6 +1,4 @@
-package com.example.awesome_toe;
-
-public class GameState {
+public class GameServerState {
 	
 	public int m_tScore, m_oScore, m_eScore; //made public so we dont need getter and setter for each
 	
@@ -10,20 +8,13 @@ public class GameState {
 	private char m_playerTurn;
 	private char[][] m_board = new char[BOARDSIZE][BOARDSIZE];
 
-	private OnDataPass datapasser;
 	private boolean gameEnd = false;
 	
-	public GameState() {
-		initializeGame();
+	public GameServerState() {
+		initializeGameServer();
 	}
 	
-	public GameState(OnDataPass handler) {
-		initializeGame();
-		datapasser = handler;
-		
-	}
-	
-	private void initializeGame(){
+	private void initializeGameServer(){
 		for(int i=0; i<BOARDSIZE; i++) {
 			for(int j=0; j<BOARDSIZE; j++) {
 				m_board[i][j] = 'a';
@@ -42,26 +33,11 @@ public class GameState {
 		m_playerTurn = 't';
 	}
 	
-	public void sendMove(int row, int col){
-		//send move to server
-		//update the ui after response from server
-	}
-	
-	public void checkGameStatus(){
-		//check the status of game on server and set gameEnd flag
-		if (gameEnd == true)
-			doEndgame();
-	}
-	
-	public void updateUI() {
-		datapasser.updateUI();
-	}
-	
-	public void doEndgame() {
+	public void updateClients() {
 		//TODO
 	}
 	
-	public void calculateScores() {
+	public void doEndgame() {
 		//TODO
 	}
 	
@@ -87,9 +63,5 @@ public class GameState {
 
 	public void setPlayerTurn(char playerTurn) {
 		this.m_playerTurn = playerTurn;
-	}
-
-	public OnDataPass _getDataPassHandler() {
-		return datapasser;
 	}
 }

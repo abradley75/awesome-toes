@@ -12,9 +12,27 @@ public class MessageDecoder extends ByteToMessageDecoder {
 
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
-		if (in.readableBytes() < 4) {
+		if (in.readableBytes() < 54) {
             return;
         }
-        out.add(new UpdatePacket(in.readInt()));
+		
+		char turn = in.readChar();
+		char[][] board = new char[GameState.BOARDSIZE][GameState.BOARDSIZE];
+		
+		for(int i = 0; i < GameState.BOARDSIZE; i++) {
+			for(int j = 0; j < GameState.BOARDSIZE; j++) {
+				board[i][j] = in.readChar();
+			}
+		}
+		
+		boolean gameEnd = false;
+		if(in.readInt() == 1)
+			gameEnd = true;
+		else if (in.readInt() == 0)
+			gameEnd = false;
+		else
+			System.out.println("ABDEBUG: MessageDecoder -- should never hit this");
+		
+        out.add(new UpdatePacket(turn, board, gameEnd));
 	}
 }
