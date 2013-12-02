@@ -30,7 +30,7 @@ public class UpdatePacket {
         	for (int i = 0 ; i < 5 ; i++) {
         		str3 = str3 + boardState[i][j] ;
         		
-        		if(i == 5)
+        		if(i == 5 && j != 5)
         			str3 = str3 + ", ";
         		else
         			str3 = str3 + " ";
