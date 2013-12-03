@@ -28,7 +28,10 @@ public class AwesomeServer {
              .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                  @Override
                  public void initChannel(SocketChannel ch) throws Exception {
-                     ch.pipeline().addLast(new MessageEncoder(), new AwesomeServerHandler());
+                     ch.pipeline().addLast(
+                    		 new MessageEncoder(),
+                    		 new MessageDecoder(),
+                    		 new AwesomeServerHandler());
                  }
              })
              .option(ChannelOption.SO_BACKLOG, 128)          // (5)
