@@ -10,7 +10,7 @@ public class NetworkClientHandler extends ChannelInboundHandlerAdapter {
 	 public NetworkClientHandler(OnDataPass m_handler) {
 		datapasser = m_handler;		
 	}
-	@Override
+	 	@Override
 	    public void channelRead(ChannelHandlerContext ctx, Object msg) {
 		 System.out.println("ABDEBUG: in clienthandler channelRead!");
 		 

@@ -1,7 +1,5 @@
 package com.example.awesome_toe;
 
-import com.example.awesome_toe.R.drawable;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,10 +8,11 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnDataPass {
 	
-	final String HOST_STRING = "192.168.0.7";
+	final String HOST_STRING = "192.168.0.8";
 	final int    PORT_NUMBER = 8080;
 	
 	static GameState m_state = null;
@@ -59,7 +58,6 @@ public class MainActivity extends Activity implements OnDataPass {
 		
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			int row = -1, col = -1;
 			
 			for(int i=0; i<GameState.BOARDSIZE; i++)
@@ -108,49 +106,53 @@ public class MainActivity extends Activity implements OnDataPass {
 				eScore.setText(Integer.toString(m_state.m_eScore));
 				//need to set player piece, player turn and board
 				//m_textView.setText(m_state.toString());;
-				
 				if(setBoardUI() == -1)
 					gracefullyFailAndReset();//TODO handle invalid setBoard
+				
+				if(m_state.checkGameStatus()){
+					char winner = m_state.getWinner();
+					Toast.makeText(MainActivity.this, "winner is "+winner, Toast.LENGTH_LONG).show();
+				}
 			}
 
 		});
 	}
 	
+	//this function returns 0 is success. -1 means there is an invalid state and should gracefully fail.
+		private int setBoardUI() {
+			char[][] board = m_state.getBoard();
+			for (int i = 0 ; i < GameState.BOARDSIZE; i++) {
+				for( int j = 0; j < GameState.BOARDSIZE; j++) {
+					int resId = getResources().getIdentifier("board"+Integer.toString(i)+Integer.toString(j), "id", "com.example.awesome_toe");
+					ImageButton selView = (ImageButton)findViewById(resId);				
+					
+					char piece = board[i][j];
+					
+					switch (piece) {
+						case 'a':
+							selView.setImageResource(R.drawable.back);
+							break;
+						case 't':
+							selView.setImageResource(R.drawable.t);
+							break;
+						case 'o':
+							selView.setImageResource(R.drawable.o);
+							break;
+						case 'e':
+							selView.setImageResource(R.drawable.e);
+							break;
+						default:
+							return -1; // Should never happen		
+							
+					}
+				}
+			}
+			return 0;		
+		}
+	
 	protected void gracefullyFailAndReset() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	//this function returns 0 is success. -1 means there is an invalid state and should gracefully fail.
-	private int setBoardUI() {
-		for (int i = 0 ; i < GameState.BOARDSIZE; i++) {
-			for( int j = 0; j < GameState.BOARDSIZE; j++) {
-				int resId = getResources().getIdentifier("board"+Integer.toString(i)+Integer.toString(j), "id", "com.example.awesome_toe");
-				ImageButton selView = (ImageButton)findViewById(resId);
-				
-				char[][] board = m_state.getBoard();
-				char piece = board[i][j];
-				
-				switch (piece) {
-					case 'a':
-						selView.setImageResource(drawable.back);
-						break;
-					case 't':
-						selView.setImageResource(drawable.t);
-						break;
-					case 'o':
-						selView.setImageResource(drawable.o);
-						break;
-					case 'e':
-						selView.setImageResource(drawable.e);
-						break;
-					default:
-						return -1; // Should never happen		
-						
-				}
-			}
-		}
-		return 0;		
 	}
 	
 	public static GameState getState() {
@@ -163,7 +165,11 @@ public class MainActivity extends Activity implements OnDataPass {
 
 	@Override
 	public void updateGameState(UpdatePacket m) {
-		// TODO Auto-generated method stub
-		
+		Log.i("DEBUG", "HERE");
+		m_state.setPlayerTurn(m.getPlayerTurn());
+		m_state.setBoard(m.getBoardState());
+		m_state.setGameEnd(m.isGameEnd());
+		m_state.calculateScores();
+		m_state.updateUI();		
 	}
 }

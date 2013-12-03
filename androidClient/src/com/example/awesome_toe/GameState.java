@@ -47,10 +47,9 @@ public class GameState {
 		//update the ui after response from server
 	}
 	
-	public void checkGameStatus(){
+	public boolean checkGameStatus(){
 		//check the status of game on server and set gameEnd flag
-		if (gameEnd == true)
-			doEndgame();
+		return gameEnd;
 	}
 	
 	public void updateUI() {
@@ -62,9 +61,111 @@ public class GameState {
 	}
 	
 	public void calculateScores() {
-		//TODO
+		m_tScore = scoreForPiece('t');
+		m_oScore = scoreForPiece('o');
+		m_eScore = scoreForPiece('e');
 	}
-	
+		
+	private int scoreForPiece(char piece) {
+		int row = 0, col = 0, majorDiag = 0, minorDiag = 0;
+		int rowCt = 0, colCt = 0, majorCt = 0, minorCt = 0;
+		char rowPrev = 'a', colPrev = 'a', majorPrev = 'a', minorPrev = 'a'; 
+		
+		//loop for row and col scores
+		for(int i=0; i<BOARDSIZE; i++){
+			for(int j=0; i<BOARDSIZE; j++){
+				//scores for rows
+				if(m_board[i][j] == piece)
+					if(rowPrev == piece)
+						rowCt *=2;
+					else
+						rowCt = 1;
+				else{
+					if(rowPrev == piece){
+						row+=rowCt;
+						rowCt=0;
+					}						
+				}
+				rowPrev = m_board[i][j];
+				if(j==BOARDSIZE-1){//add and reset score at end of row
+					row+=rowCt;
+					rowCt=0;
+					rowPrev = 'a';
+				}
+				
+				//scores for columns
+				if(m_board[j][i] == piece)
+					if(colPrev == piece)
+						colCt *=2;
+					else
+						colCt = 1;
+				else{
+					if(rowPrev == piece){
+						col+=colCt;
+						colCt=0;
+					}						
+				}
+				colPrev = m_board[j][i];
+				if(i==BOARDSIZE-1){//add and reset score at end of column
+					col+=colCt;
+					colCt=0;
+					colPrev = 'a';
+				}				
+			}
+		}
+		//algorithm below found at: 
+		//http://analgorithmaday.blogspot.com/2011/04/traverse-array-diagonally.html
+		//loop in major diagonal direction
+		for (int slice = 0; slice < BOARDSIZE*2-1; ++slice) {
+	        int z = slice < BOARDSIZE ? 0 : slice - BOARDSIZE + 1;
+	        for (int j = z; j <= slice - z; ++j) {
+	            int c1=j;
+	            int c2=(BOARDSIZE-1)-(slice-j);
+				if(m_board[c1][c2] == piece)
+					if(majorPrev == piece)
+						majorCt *=2;
+					else
+						majorCt = 1;
+				else{
+					if(majorPrev == piece){
+						majorDiag+=majorCt;
+						majorCt=0;
+					}						
+				}
+				majorPrev = m_board[c1][c2];
+	        }
+	        majorDiag+=majorCt;
+			majorCt=0;
+	        majorPrev = 'a';
+	    }
+		
+		//traverse in minor diagonal direction
+		for (int slice = 0; slice < BOARDSIZE*2-1; ++slice) {
+	        int z = slice < BOARDSIZE ? 0 : slice - BOARDSIZE + 1;
+	        for (int j = z; j <= slice - z; ++j) {
+	            int c1=j;
+	            int c2=slice-j;
+				if(m_board[c1][c2] == piece)
+					if(minorPrev == piece)
+						minorCt *=2;
+					else
+						minorCt = 1;
+				else{
+					if(minorPrev == piece){
+						minorDiag+=majorCt;
+						minorCt=0;
+					}						
+				}
+				minorPrev = m_board[c1][c2];
+	        }
+	        minorDiag+=minorCt;
+	        minorCt=0;
+	        minorPrev = 'a';
+	    }
+		
+		return row+col+majorDiag+minorDiag;
+	}
+
 	public char[][] getBoard() {
 		return m_board;
 	}
@@ -88,8 +189,37 @@ public class GameState {
 	public void setPlayerTurn(char playerTurn) {
 		this.m_playerTurn = playerTurn;
 	}
+	
+	public void setGameEnd(boolean gameStatus){
+		gameEnd = gameStatus;
+	}
 
 	public OnDataPass _getDataPassHandler() {
 		return datapasser;
+	}
+
+	public char getWinner() {
+		char winner = 'a';
+		if(m_tScore == m_oScore && m_tScore == m_eScore)
+			winner = 'a';
+		else if(m_tScore > m_oScore)
+			if(m_tScore > m_eScore)
+				winner = 't';
+			else if(m_tScore < m_eScore)
+				winner = 'e';
+			else 
+				winner = 'a';
+		else if (m_tScore < m_oScore)
+			if(m_oScore > m_eScore)
+				winner = 'o';
+			else if(m_oScore < m_eScore)
+				winner = 'e';
+			else 
+				winner = 'a';
+		else if(m_tScore == m_oScore)
+			if(m_tScore < m_eScore)
+				winner = 'e';
+			else winner = 'a';
+		return winner;
 	}
 }

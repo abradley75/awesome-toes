@@ -133,43 +133,48 @@
         android:weightSum="5">        
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"            
             android:layout_weight="1" >
         <ImageButton
             android:id="@+id/board00"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board03"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board04"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />        
         </LinearLayout>
         
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" >
         <ImageButton
@@ -177,35 +182,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />        
         </LinearLayout>
         
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" >
         <ImageButton
@@ -213,35 +223,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board21"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />        
         </LinearLayout>
         
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" >
         <ImageButton
@@ -249,35 +264,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board31"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board32"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board33"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board34"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />        
         </LinearLayout>
         
        	<LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" >
         <ImageButton
@@ -285,30 +305,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board41"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board42"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board43"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />
         <ImageButton
             android:id="@+id/board44"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="1dp"
             android:src="@drawable/back" />        
         </LinearLayout>    
         
