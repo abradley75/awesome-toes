@@ -18,7 +18,7 @@ public class GameStateTest extends InstrumentationTestCase {
 	@Override
 	 protected void setUp() throws Exception {
 	   super.setUp();
-	   testState = new GameState();
+	   testState = GameState.getInstance();
 	 }
 	
 	public void testInitializedProperly() throws Exception {
@@ -39,7 +39,8 @@ public class GameStateTest extends InstrumentationTestCase {
 	
 	public void testAddingHandler() throws Exception {
 		MainActivity act = new MainActivity();
-		testState = new GameState((OnDataPass)act);
+		testState = GameState.getInstance();
+		testState.setDataPassHandler( (OnDataPass)act );
 		assertEquals("handler should be activity", (OnDataPass) act, testState._getDataPassHandler());
 	}
 	
@@ -52,16 +53,13 @@ public class GameStateTest extends InstrumentationTestCase {
 			@Override
 			public void updateUI() {
 				funcCalled = true;
-			}
-
-			@Override
-			public void updateGameState(UpdatePacket m) {	
 			}	
 		};
 		
 		MyOnDataPass myHandler = new MyOnDataPass();
 		
-		testState = new GameState(myHandler);
+		testState = GameState.getInstance();
+		testState.setDataPassHandler(myHandler);
 		testState.updateUI();
 		assertEquals("Handler should have been called", true, myHandler.funcCalled);
 		
