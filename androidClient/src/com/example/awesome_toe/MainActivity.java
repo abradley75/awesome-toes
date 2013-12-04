@@ -1,6 +1,7 @@
 package com.example.awesome_toe;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,7 +13,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnDataPass {
 	
-	final String HOST_STRING = "192.168.1.134";
+	static String HOST_STRING = "192.168.1.12";
 	final int    PORT_NUMBER = 8080;
 	
 	static GameState m_state = null;
@@ -27,6 +28,10 @@ public class MainActivity extends Activity implements OnDataPass {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);		
+		
+		Intent intent = getIntent();
+		if (!intent.getStringExtra("serverIP").isEmpty())
+			HOST_STRING = intent.getStringExtra("serverIP");
 		
 		//Handle to activity 
 		OnDataPass dataPasser = (OnDataPass)this;
