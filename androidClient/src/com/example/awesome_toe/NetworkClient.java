@@ -1,29 +1,37 @@
 package com.example.awesome_toe;
 
+import java.net.InetSocketAddress;
+
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.oio.OioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.oio.OioSocketChannel;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
+import io.netty.handler.codec.Delimiters;
 
 //First parameter should be the host string, and 2nd should be the port as an integer.
 public class NetworkClient {
 	
 	private String host;
 	private int port;
-	private OnDataPass m_handler;
 	
-	public NetworkClient( String in_host, int in_port, OnDataPass handler) {
+	private Channel chan;
+	
+	public NetworkClient( String in_host, int in_port) {
 		this.host = in_host;
 		this.port = in_port;
-		this.m_handler = handler;
 	}
 	
 	public NetworkClient() {
-		this("localhost", 8080, null);
+		this("localhost", 8080);
+	}
+	
+	public void writeToChannel(UpdatePacket m) {
+		chan.writeAndFlush(m);
 	}
 		
     public void run() throws Exception {
@@ -38,17 +46,26 @@ public class NetworkClient {
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new MessageDecoder(), new NetworkClientHandler(m_handler));
+                    ch.pipeline().addLast(
+                    		new DelimiterBasedFrameDecoder(62, Delimiters.lineDelimiter()),
+                    		new MessageEncoder(),
+                    		new MessageDecoder(),
+                    		new NetworkClientHandler());
                 }
             });
             
             // Start the client.
-            ChannelFuture f = b.connect(this.host, this.port).sync(); // (5)
+            chan = b.connect(new InetSocketAddress(this.host, this.port)).sync().channel();
+         
             System.out.println("ABDEBUG: Client setup!");
+            System.out.println("ABDEBUG: chan is writable: " + chan.isWritable());
+            
+            chan.read();
 
             // Wait until the connection is closed.
-            f.channel().closeFuture().sync();
+            chan.closeFuture().sync();
         } finally {
+        	System.out.println("ABDEBUG: in networkclient finally clause!");
             workerGroup.shutdownGracefully();
         }
     }

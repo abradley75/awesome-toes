@@ -2,9 +2,15 @@ package com.example.awesome_toe;
 
 public class GameState {
 	
+	public static GameState m_instance;
+	
 	public int m_tScore, m_oScore, m_eScore; //made public so we dont need getter and setter for each
 	
 	public final static int BOARDSIZE = 5; // Size of board
+	public final static char BLANKSLOT = 'a';
+	public final static char TPLAYER = 't';
+	public final static char OPLAYER = 'o';
+	public final static char EPLAYER = 'e';
 	
 	private char m_playerPiece;
 	private char m_playerTurn;
@@ -13,14 +19,19 @@ public class GameState {
 	private OnDataPass datapasser;
 	private boolean gameEnd = false;
 	
-	public GameState() {
+	private GameState() {
 		initializeGame();
 	}
 	
-	public GameState(OnDataPass handler) {
-		initializeGame();
-		datapasser = handler;
-		
+	public static GameState getInstance() {
+		if (m_instance == null) {
+			m_instance = new GameState();
+		}
+		return m_instance;
+	}
+	
+	public void setDataPassHandler(OnDataPass handler) {
+		datapasser = handler;	
 	}
 	
 	private void initializeGame(){
@@ -38,26 +49,23 @@ public class GameState {
 		// Order is always the same so assignment is randomization of order.
 		
 		//TODO for now assign two states for unit tests.
-		m_playerPiece = 't';
-		m_playerTurn = 't';
+//		m_playerPiece = 't';
+//		m_playerTurn = 't';
 	}
 	
-	public void sendMove(int row, int col){
-		//send move to server
-		//update the ui after response from server
+	//Create an updatePacket to send to server with player's move
+	public UpdatePacket sendMove() {
+		UpdatePacket u = new UpdatePacket(m_playerPiece, m_board, gameEnd, UpdatePacket.FROMCLIENT);
+		return u;
 	}
 	
-	public boolean checkGameStatus(){
+	public boolean checkGameEnd(){
 		//check the status of game on server and set gameEnd flag
 		return gameEnd;
 	}
 	
 	public void updateUI() {
 		datapasser.updateUI();
-	}
-	
-	public void doEndgame() {
-		//TODO
 	}
 	
 	public void calculateScores() {
@@ -221,5 +229,18 @@ public class GameState {
 				winner = 'e';
 			else winner = 'a';
 		return winner;
+	}
+
+	public void updateGameState(UpdatePacket update) {
+		System.out.println("ABDEBUG: in updateGameState");
+		setPlayerTurn(update.getPlayerTurn());
+		setBoard(update.getBoardState());
+		setGameEnd(update.isGameEnd());
+		calculateScores();
+		updateUI();
+	}
+
+	public void applyMoveToBoard(int row, int col) {
+		m_board[row][col] = m_playerPiece;
 	}
 }

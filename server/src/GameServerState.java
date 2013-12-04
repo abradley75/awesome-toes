@@ -19,6 +19,7 @@ public class GameServerState {
 	
 	private GameServerState() {
 		initializeGameServer();
+		loadMockData();
 	}
 	
 	public static GameServerState getInstance() {
@@ -29,6 +30,7 @@ public class GameServerState {
 	}
 	
 	private void initializeGameServer(){
+		
 		for(int i=0; i<BOARDSIZE; i++) {
 			for(int j=0; j<BOARDSIZE; j++) {
 				m_board[i][j] = BLANKSLOT;
@@ -42,8 +44,6 @@ public class GameServerState {
 		//Should be randomly set by server. Choices: t, o , e.
 		// Order is always the same so assignment is randomization of order.
 		pickStartingPlayer();
-		
-		updateClients();
 	}
 	
 	public void pickStartingPlayer() {
@@ -166,11 +166,11 @@ public class GameServerState {
 	}
 	
 	public void loadMockData() {
-		m_playerTurn = 'M';		
+		m_playerTurn = 'e';		
 		
 		for(int i=0; i<BOARDSIZE; i++) {
 			for(int j=0; j<BOARDSIZE; j++) {
-				m_board[i][j] = 'b';
+				m_board[i][j] = 'o';
 			}
 		}
 	}

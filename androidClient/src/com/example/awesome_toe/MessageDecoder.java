@@ -6,17 +6,16 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
-//This is a handler for the client that takes care of the segmenting that can happen on a socket connection.
-//It makes sure there are at least 4 bytes to read before reading from a socket.
+
 public class MessageDecoder extends ByteToMessageDecoder {
 
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
-		if (in.readableBytes() < 54) {
-            return;
-        }
 		
-		char turn = in.readChar();
+		System.out.println("ABDEBUG: in messageDecoder");
+		
+		char playerSending = in.readChar();
+		char playerTurn = in.readChar();
 		char[][] board = new char[GameState.BOARDSIZE][GameState.BOARDSIZE];
 		
 		for(int i = 0; i < GameState.BOARDSIZE; i++) {
@@ -25,14 +24,22 @@ public class MessageDecoder extends ByteToMessageDecoder {
 			}
 		}
 		
-		boolean gameEnd = false;
+		boolean gameEnd;
 		if(in.readInt() == 1)
 			gameEnd = true;
 		else if (in.readInt() == 0)
 			gameEnd = false;
 		else
-			System.out.println("ABDEBUG: MessageDecoder -- should never hit this");
+			gameEnd = false;
+			System.out.println("ABDEBUG: MessageDecoder -- bad GameEnd flag");
 		
-        out.add(new UpdatePacket(turn, board, gameEnd));
+		//If turn is valid and playerSending is unused then from server
+		if(playerSending == UpdatePacket.NOTUSED) {
+			out.add(new UpdatePacket(playerTurn, board, gameEnd, UpdatePacket.FROMSERVER));
+		}
+		else {
+			System.out.println("ABDEBUG: Invalid updatepacket from server, creating anyway");
+			out.add(new UpdatePacket(playerSending, playerTurn, board, gameEnd));
+		}
 	}
 }

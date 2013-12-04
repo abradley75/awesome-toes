@@ -9,9 +9,6 @@ public class MessageDecoder extends ByteToMessageDecoder {
 
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
-		if (in.readableBytes() < 56) {
-            return;
-        }
 		
 		char playerSending = in.readChar();
 		char playerTurn = in.readChar();

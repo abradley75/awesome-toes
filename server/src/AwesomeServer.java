@@ -6,6 +6,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
+import io.netty.handler.codec.Delimiters;
     
 /**
  * Discards any incoming data.
@@ -29,6 +31,7 @@ public class AwesomeServer {
                  @Override
                  public void initChannel(SocketChannel ch) throws Exception {
                      ch.pipeline().addLast(
+                    		 new DelimiterBasedFrameDecoder(62, Delimiters.lineDelimiter()),
                     		 new MessageEncoder(),
                     		 new MessageDecoder(),
                     		 new AwesomeServerHandler());
@@ -57,6 +60,7 @@ public class AwesomeServer {
         } else {
             port = 8080;
         }
+        
         System.out.println("Awesome Server running on port: " + port );
         new AwesomeServer(port).run();
     }

@@ -1,3 +1,5 @@
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
@@ -10,6 +12,18 @@ public class AwesomeServerHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) {
 		channels.add(ctx.channel());
+		System.out.println("ABDEBUG: added channel: " + ctx.name() + " to group.");
+		
+		//Send initial gameState to client upon connection.
+		GameServerState state = GameServerState.getInstance();
+		System.out.println(state.updateClients().toString());
+		ChannelFuture f = ctx.writeAndFlush(state.updateClients());
+		f.addListener(new ChannelFutureListener() {
+			@Override
+			public void operationComplete(ChannelFuture future) {
+				System.out.println("Finished connection write");
+			}
+		});
 	}
 	
 	@Override

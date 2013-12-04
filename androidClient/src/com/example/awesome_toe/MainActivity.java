@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnDataPass {
 	
-	final String HOST_STRING = "192.168.0.8";
+	final String HOST_STRING = "192.168.1.134";
 	final int    PORT_NUMBER = 8080;
 	
 	static GameState m_state = null;
@@ -31,8 +31,10 @@ public class MainActivity extends Activity implements OnDataPass {
 		//Handle to activity 
 		OnDataPass dataPasser = (OnDataPass)this;
 				
-		m_state = new GameState(dataPasser);		
-		m_client = new NetworkClient(HOST_STRING, PORT_NUMBER, dataPasser);
+		m_state = GameState.getInstance();
+		m_state.setDataPassHandler(dataPasser);
+		
+		m_client = new NetworkClient(HOST_STRING, PORT_NUMBER);
 		
 		tScore = (TextView)findViewById(R.id.tScore);
 		oScore = (TextView)findViewById(R.id.oScore);
@@ -71,10 +73,10 @@ public class MainActivity extends Activity implements OnDataPass {
 			//row and col identifies the button clicked
 			//get m_state to send the move to server
 			Log.i("AwesomeClient", "calling send move"+row+col);
-			m_state.sendMove(row, col);			
+			m_state.applyMoveToBoard(row, col);			
+			m_client.writeToChannel(m_state.sendMove());
 		}
-	};
-	
+	};	
 	
 	@Override
 	protected void onResume() {
@@ -100,16 +102,17 @@ public class MainActivity extends Activity implements OnDataPass {
 			
 			@Override
 			public void run() {
-				//setting ui
+				//setting UI
 				tScore.setText(Integer.toString(m_state.m_tScore));
 				oScore.setText(Integer.toString(m_state.m_oScore));
 				eScore.setText(Integer.toString(m_state.m_eScore));
-				//need to set player piece, player turn and board
-				//m_textView.setText(m_state.toString());;
-				if(setBoardUI() == -1)
-					gracefullyFailAndReset();//TODO handle invalid setBoard
+				setPlayerStatusUI();
 				
-				if(m_state.checkGameStatus()){
+
+				if(setBoardUI() == -1)
+					gracefullyFailAndReset();
+				
+				if(m_state.checkGameEnd()){
 					char winner = m_state.getWinner();
 					Toast.makeText(MainActivity.this, "winner is "+winner, Toast.LENGTH_LONG).show();
 				}
@@ -118,6 +121,50 @@ public class MainActivity extends Activity implements OnDataPass {
 		});
 	}
 	
+	private void setPlayerStatusUI() {
+		
+		char piece = m_state.getPlayerPiece();
+		char turn = m_state.getPlayerTurn();
+		
+		switch (piece) {
+		case 'a':
+			playerPiece.setImageResource(R.drawable.back);
+			break;
+		case 't':
+			playerPiece.setImageResource(R.drawable.t);
+			break;
+		case 'o':
+			playerPiece.setImageResource(R.drawable.o);
+			break;
+		case 'e':
+			playerPiece.setImageResource(R.drawable.e);
+			break;
+		default:
+			System.out.println("ABDEBUG: setplayerstatusui not a valid piece");
+			return; // Should never happen			
+	}
+		
+		switch (turn) {
+		case 'a':
+			playerTurn.setImageResource(R.drawable.back);
+			break;
+		case 't':
+			playerTurn.setImageResource(R.drawable.t);
+			break;
+		case 'o':
+			playerTurn.setImageResource(R.drawable.o);
+			break;
+		case 'e':
+			playerTurn.setImageResource(R.drawable.e);
+			break;
+		default:
+			System.out.println("ABDEBUG: setplayerstatusui not a valid turn");
+			return; // Should never happen			
+	}
+		
+		
+	}
+
 	//this function returns 0 is success. -1 means there is an invalid state and should gracefully fail.
 		private int setBoardUI() {
 			char[][] board = m_state.getBoard();
@@ -152,7 +199,6 @@ public class MainActivity extends Activity implements OnDataPass {
 	
 	protected void gracefullyFailAndReset() {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	public static GameState getState() {
@@ -161,15 +207,5 @@ public class MainActivity extends Activity implements OnDataPass {
 	
 	public static NetworkClient getClient() {
 		return m_client;
-	}
-
-	@Override
-	public void updateGameState(UpdatePacket m) {
-		Log.i("DEBUG", "HERE");
-		m_state.setPlayerTurn(m.getPlayerTurn());
-		m_state.setBoard(m.getBoardState());
-		m_state.setGameEnd(m.isGameEnd());
-		m_state.calculateScores();
-		m_state.updateUI();		
 	}
 }
