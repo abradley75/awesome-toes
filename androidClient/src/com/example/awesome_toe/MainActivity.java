@@ -29,9 +29,9 @@ public class MainActivity extends Activity implements OnDataPass {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);		
 		
-		Intent intent = getIntent();
-		if (!intent.getStringExtra("serverIP").isEmpty())
-			HOST_STRING = intent.getStringExtra("serverIP");
+		Bundle extras = getIntent().getExtras();
+		if (extras != null)
+			HOST_STRING = extras.getString("serverIP");
 		
 		//Handle to activity 
 		OnDataPass dataPasser = (OnDataPass)this;

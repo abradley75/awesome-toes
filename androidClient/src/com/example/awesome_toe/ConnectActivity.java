@@ -30,7 +30,7 @@ public class ConnectActivity extends Activity {
 		Intent intent = new Intent(this, MainActivity.class);
 		String message = editText.getText().toString();
 		intent.putExtra("serverIP", message);
-		startActivity(intent);
+		this.startActivity(intent);
 	}
 
 }
