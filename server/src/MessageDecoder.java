@@ -10,6 +10,13 @@ public class MessageDecoder extends ByteToMessageDecoder {
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
 		
+		System.out.println("ABDEBUG: in messageDecoder");
+		if(in.readableBytes() < 58) {
+			return;
+		}
+		
+		System.out.println("ABDEBUG: msgDecoder, enough bytes!");
+		
 		char playerSending = in.readChar();
 		char playerTurn = in.readChar();
 		char[][] board = new char[GameServerState.BOARDSIZE][GameServerState.BOARDSIZE];

@@ -29,7 +29,10 @@ public class ConnectActivity extends Activity {
 	public void connectToServer(View view){
 		Intent intent = new Intent(this, MainActivity.class);
 		String message = editText.getText().toString();
-		intent.putExtra("serverIP", message);
+		
+		if(!message.isEmpty()) {
+			intent.putExtra("serverIP", message);
+		}
 		this.startActivity(intent);
 	}
 

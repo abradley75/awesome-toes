@@ -3,9 +3,9 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.oio.OioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.channel.socket.oio.OioServerSocketChannel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.Delimiters;
     
@@ -21,20 +21,19 @@ public class AwesomeServer {
     }
     
     public void run() throws Exception {
-        EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new OioEventLoopGroup(); // (1)
+        EventLoopGroup workerGroup = new OioEventLoopGroup();
         try {
             ServerBootstrap b = new ServerBootstrap(); // (2)
             b.group(bossGroup, workerGroup)
-             .channel(NioServerSocketChannel.class) // (3)
+             .channel(OioServerSocketChannel.class) // (3)
              .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                  @Override
                  public void initChannel(SocketChannel ch) throws Exception {
                      ch.pipeline().addLast(
-                    		 new DelimiterBasedFrameDecoder(62, Delimiters.lineDelimiter()),
                     		 new MessageEncoder(),
                     		 new MessageDecoder(),
-                    		 new AwesomeServerHandler());
+                    		 new AwesomeServerHandler(true));
                  }
              })
              .option(ChannelOption.SO_BACKLOG, 128)          // (5)

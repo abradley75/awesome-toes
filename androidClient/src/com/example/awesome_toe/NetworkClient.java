@@ -34,39 +34,52 @@ public class NetworkClient {
 		chan.writeAndFlush(m);
 	}
 		
-    public void run() throws Exception {
-    	
-        EventLoopGroup workerGroup = new OioEventLoopGroup();
+    public void run() {
         
-        try {
-            Bootstrap b = new Bootstrap(); // (1)
-            b.group(workerGroup); // (2)
-            b.channel(OioSocketChannel.class); // (3)
-            b.option(ChannelOption.SO_KEEPALIVE, true); // (4)
-            b.handler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(
-                    		new DelimiterBasedFrameDecoder(62, Delimiters.lineDelimiter()),
-                    		new MessageEncoder(),
-                    		new MessageDecoder(),
-                    		new NetworkClientHandler());
-                }
-            });
-            
-            // Start the client.
-            chan = b.connect(new InetSocketAddress(this.host, this.port)).sync().channel();
-         
-            System.out.println("ABDEBUG: Client setup!");
-            System.out.println("ABDEBUG: chan is writable: " + chan.isWritable());
-            
-            chan.read();
-
-            // Wait until the connection is closed.
-            chan.closeFuture().sync();
-        } finally {
-        	System.out.println("ABDEBUG: in networkclient finally clause!");
-            workerGroup.shutdownGracefully();
-        }
+        Runnable runnable = new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				EventLoopGroup workerGroup = new OioEventLoopGroup();
+				
+				try {
+		            Bootstrap b = new Bootstrap(); // (1)
+		            b.group(workerGroup); // (2)
+		            b.channel(OioSocketChannel.class); // (3)
+		            b.option(ChannelOption.SO_KEEPALIVE, true); // (4)
+		            b.handler(new ChannelInitializer<SocketChannel>() {
+		                @Override
+		                public void initChannel(SocketChannel ch) throws Exception {
+		                    ch.pipeline().addLast(
+		                    		new MessageEncoder(),
+		                    		new MessageDecoder(),
+		                    		new NetworkClientHandler(true));
+		                }
+		            });
+		            
+		            // Start the client.
+		            chan = b.connect(new InetSocketAddress(host, port)).sync().channel();
+		         
+		            System.out.println("ABDEBUG: Client setup!");
+		
+		            // Wait until the connection is closed.
+		            chan.closeFuture().awaitUninterruptibly();
+		            System.out.println("ABDEBUG: sync() called!");
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					System.out.println("ABDEBUG: In networkClient catch!");
+					e.printStackTrace();
+				} finally {
+					System.out.println("ABDEBUG: in networkclient finally clause!");
+					workerGroup.shutdownGracefully();
+					System.out.println("ABDEBUG: in networkclient finally clause - after shutdown!");
+				}
+			}
+        };
+        
+        Thread networkThread = new Thread(runnable);
+        networkThread.start();      
+        System.out.println("ABDEBUG: after threadStart called!");
     }
 }

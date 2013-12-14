@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnDataPass {
 	
-	static String HOST_STRING = "192.168.1.12";
+	static String HOST_STRING = "192.168.1.131";
 	final int    PORT_NUMBER = 8080;
 	
 	static GameState m_state = null;
@@ -86,12 +86,7 @@ public class MainActivity extends Activity implements OnDataPass {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		try {
 			m_client.run();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 	}
 
 	@Override

@@ -13,6 +13,11 @@ public class MessageDecoder extends ByteToMessageDecoder {
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
 		
 		System.out.println("ABDEBUG: in messageDecoder");
+		if(in.readableBytes() < 58) {
+			return;
+		}
+		
+		System.out.println("ABDEBUG: msgDecoder, enough bytes!");
 		
 		char playerSending = in.readChar();
 		char playerTurn = in.readChar();
@@ -25,9 +30,10 @@ public class MessageDecoder extends ByteToMessageDecoder {
 		}
 		
 		boolean gameEnd;
-		if(in.readInt() == 1)
+		int readIntGameEnd = in.readInt();
+		if(readIntGameEnd == 1)
 			gameEnd = true;
-		else if (in.readInt() == 0)
+		else if (readIntGameEnd == 0)
 			gameEnd = false;
 		else
 			gameEnd = false;
@@ -41,5 +47,7 @@ public class MessageDecoder extends ByteToMessageDecoder {
 			System.out.println("ABDEBUG: Invalid updatepacket from server, creating anyway");
 			out.add(new UpdatePacket(playerSending, playerTurn, board, gameEnd));
 		}
+		
+		System.out.println("ABDEBUG: endofmessagedecoder: " + out.get(0).toString());
 	}
 }
