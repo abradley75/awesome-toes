@@ -1,0 +1,120 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/outermostLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:weightSum = "5"
+    tools:context=".MainActivity" >
+
+    <LinearLayout 
+        android:orientation ="vertical"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"        
+        android:gravity="left">
+        
+        <TextView
+			android:id="@+id/Message"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="left"
+			android:text="Message"
+			android:textAppearance="?android:attr/textAppearanceMedium" />  
+		
+		<TextView
+		    android:id="@+id/tScore"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="left"
+			android:text="tScore"
+			android:textAppearance="?android:attr/textAppearanceMedium" /> 
+		
+		<TextView
+		    android:id="@+id/oScore"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="left"
+			android:text="oScore"
+			android:textAppearance="?android:attr/textAppearanceMedium" /> 
+		
+		<TextView
+		    android:id="@+id/eScore"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="left"
+			android:text="eScore"
+			android:textAppearance="?android:attr/textAppearanceMedium" /> 
+			
+		<TextView
+		    android:id="@+id/turn"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="left"
+			android:text="player turn"
+			android:textAppearance="?android:attr/textAppearanceMedium" /> 
+		<ImageView
+        	android:id="@+id/turnImg"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:src="@drawable/back" />
+		
+		<TextView
+		    android:id="@+id/piece"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="left"
+			android:text="your piece"
+			android:textAppearance="?android:attr/textAppearanceMedium" /> 
+			
+		<ImageView
+        	android:id="@+id/pieceImg"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:src="@drawable/back" />
+		
+		<TextView
+		    android:id="@+id/boardSize"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="left"
+			android:text="board size"
+			android:textAppearance="?android:attr/textAppearanceMedium" />
+		 <LinearLayout 
+        	android:orientation ="horizontal"
+        	android:layout_width="wrap_content"
+			android:layout_height="wrap_content"        
+        	android:gravity="left">
+			<Button
+		    	android:id="@+id/plusBut"
+		    	style="?android:attr/buttonStyleSmall"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:text="+" />
+			<Button
+		    	android:id="@+id/minusBut"
+		    	style="?android:attr/buttonStyleSmall"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:text="-" />
+		</LinearLayout>
+		<Button
+		    android:id="@+id/setBoardBut"
+		    style="?android:attr/buttonStyleSmall"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="SetBoard" />		          
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/boardLayout" 
+        android:orientation ="horizontal"        
+        android:layout_weight="4"
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"        
+        android:gravity="left"> 
+               
+    </LinearLayout>
+    
+ </LinearLayout>    
