@@ -82,8 +82,12 @@ public class PlayerThread implements Runnable {
 		});
 		while(!clientReady){
 			try {
+				sendGameState();
 				Thread.sleep(1500);
 			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
