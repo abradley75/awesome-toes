@@ -93,9 +93,9 @@ public class PlayerThread implements Runnable {
 					String moveMsg[] = msg.split(":");
 					int row = Integer.parseInt(moveMsg[1].split(",")[0]);
 					int col = Integer.parseInt(moveMsg[1].split(",")[1]);
-					if(!m_gameState.isDirty()) {
+					if(piece == m_gameState.getTurn())
 						m_gameState.receivedMove(piece, row, col);
-					}
+
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
