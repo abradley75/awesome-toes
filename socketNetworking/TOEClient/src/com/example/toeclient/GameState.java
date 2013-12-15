@@ -7,7 +7,7 @@ public class GameState {
         private final int MAXBOARDSIZE = 10;
         private int board_row = 0; // Size of board
         private int board_col = 0;
-        private char turn;
+        private char m_turn;
         private char piece;
         private char[][] m_board = new char[MAXBOARDSIZE][MAXBOARDSIZE];
 
@@ -36,10 +36,8 @@ public class GameState {
     			}
     		}
         	
-        	setGameEnd(false);
-        	turn = 't';
-        	
-        	
+        	gameEnd = false;
+        	m_turn = 't';         	
         }
         
         public int getRow(){
@@ -52,7 +50,7 @@ public class GameState {
         public String toString(){
         	String gameStateMsg = "";
         	gameStateMsg+="piece:"+piece+"\n";
-        	gameStateMsg+="turn:"+turn+"\n";
+        	gameStateMsg+="turn:"+m_turn+"\n";
         	gameStateMsg+="row:"+Integer.toString(board_row)+"\n";
         	gameStateMsg+="col:"+Integer.toString(board_col)+"\n";
         	gameStateMsg+="board:";
@@ -67,8 +65,14 @@ public class GameState {
         	return gameStateMsg;
         }
 
-		public void receivedUpdate(char piece, char turn, char[][] board) {
-			//TODO
+		public void receivedUpdate(char turn, char[][] board,boolean gameEndFlag) {
+			m_turn = turn;
+        	for(int i=0; i< board_row; i++) {
+    			for(int j=0; j< board_col; j++) {
+    				m_board[i][j] = board[i][j];
+    			}
+    		}
+        	gameEnd = gameEndFlag;			
 		}
 
 		public char getPiece() {
@@ -82,10 +86,6 @@ public class GameState {
 		public boolean isGameEnd() {
 			return gameEnd;
 		}
-
-		public void setGameEnd(boolean gameEnd) {
-			this.gameEnd = gameEnd;
-		}
 		
 		public boolean setBoardSize(int row, int col){
 			boolean boardChanged = false;
@@ -96,5 +96,13 @@ public class GameState {
 			}
 			return boardChanged;			
 			
+		}
+
+		public char getTurn() {
+			return m_turn;
+		}
+
+		public char[][] getBoard() {
+			return m_board;
 		}
 }

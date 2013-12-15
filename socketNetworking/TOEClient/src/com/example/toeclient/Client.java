@@ -31,14 +31,16 @@ public class Client implements Runnable{
 			m_iStream = new ObjectInputStream(m_socket.getInputStream());
 			String message = (String)m_iStream.readObject();
 			parseInitialMessage(message);
-			while(true){			
+			while(!m_gameState.isGameEnd()){			
 				message = (String)m_iStream.readObject();
 				if(message != null)
 					parseMessage(message);
 				//game.setMessage(message);	
 				message = null;
 				Thread.sleep(500);//sleep for 500
-			}		
+			}
+			game.updateUI();
+			game.handleGameEnd();
 		} catch (OptionalDataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -63,16 +65,25 @@ public class Client implements Runnable{
 		int col = Integer.parseInt(splitMsg[3].split(":")[1]);
 		
 		String board = splitMsg[4].split(":")[1];
-		char[][] parseboard = new char[row][col];
+		char[][] parseBoard = new char[row][col];
+		
+		String gameEnd = splitMsg[5].split(":")[1];
+		boolean gameEndFlag;
+		if(gameEnd.equals("true"))
+			gameEndFlag = true;
+		else 
+			gameEndFlag = false;
 		
 		int ctr = 0;
 		for(int i=0; i<row; i++)
 			for(int j=0; j<col; j++){
-				parseboard[i][j] = board.split(",")[ctr].charAt(0);
+				parseBoard[i][j] = board.split(",")[ctr].charAt(0);
 				ctr++;
 			}
 		if(m_gameState.setBoardSize(row, col))
 			game.setBoardUI();
+		m_gameState.receivedUpdate(turn.charAt(0), parseBoard, gameEndFlag);
+		game.updateUI();
 		
 	}
 

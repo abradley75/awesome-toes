@@ -17,13 +17,13 @@ public class GameActivity extends Activity {
 	private Client m_client;
 	
 	//UI COMPONENTS
-	private TextView message;
+	private TextView m_message;
 	private TextView tScore;
 	private TextView oScore;
 	private TextView eScore;
 	
-	private TextView turn;
-	private TextView piece;
+	private TextView m_turn;
+	private TextView m_piece;
 	
 	private TextView boardSize;
 	private Button plus;
@@ -41,13 +41,13 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
 		//display ui
-		message = (TextView)findViewById(R.id.Message);
+		m_message = (TextView)findViewById(R.id.Message);
 		tScore = (TextView)findViewById(R.id.tScore);
 		oScore = (TextView)findViewById(R.id.oScore);
 		eScore = (TextView)findViewById(R.id.eScore);
 				
-		turn = (TextView)findViewById(R.id.turn);
-		piece = (TextView)findViewById(R.id.piece);
+		m_turn = (TextView)findViewById(R.id.turn);
+		m_piece = (TextView)findViewById(R.id.piece);
 		
 		boardSize = (TextView)findViewById(R.id.boardSize);
 		//ui with events
@@ -86,7 +86,7 @@ public class GameActivity extends Activity {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				message.setText(m_dispMessage);			
+				m_message.setText(m_dispMessage);			
 			}			
 		});
 	}
@@ -163,10 +163,53 @@ public class GameActivity extends Activity {
 	View.OnClickListener boardButs = new View.OnClickListener(){
 		@Override
 		public void onClick(View v) {
-			size+=1;
-			boardSize.setText(Integer.toString(size));			
+			int butId = v.getId();
+			int row = 0, col = 0;
+			for(int i=0; i<m_gameState.getRow(); i++)
+				for(int j=0; j<m_gameState.getCol(); j++)
+					if(m_buttons[i][j].getId() == butId ){
+						row = i;
+						col = j;
+					}
+			String m = "Board:"+Integer.toString(row)+","+Integer.toString(col);
+			
+			try {
+				m_client.sendMessage(m);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
 		}		
 	};
+	public void updateUI() {
+		runOnUiThread(new Runnable(){
+
+			@Override
+			public void run() {
+				int row = m_gameState.getRow();
+				int col = m_gameState.getCol();
+				//calculate score
+				char piece = m_gameState.getPiece();
+				char turn = m_gameState.getTurn();
+				char board[][] = m_gameState.getBoard();
+				String message ="";
+				if(piece == turn)
+					message = "Your Turn!";
+				else
+					message = "Waiting For "+Character.toUpperCase(turn);
+				m_message.setText(message);
+				m_turn.setText(turn);
+				for(int i=0; i<row; i++)
+					for(int j=0; j<col; j++)
+						m_buttons[i][j].setText(board[i][j]);				
+			}			
+		});
+		
+	}
+	public void handleGameEnd() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 
