@@ -128,7 +128,6 @@ public class GameActivity extends Activity {
 		}		
 	};
 	public void enableButtons() {
-		System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
 		plus.setEnabled(true);
 		minus.setEnabled(true);
 		setBoard.setEnabled(true);		
@@ -136,7 +135,6 @@ public class GameActivity extends Activity {
 	
 	public void setBoardUI() {
 		runOnUiThread(new Runnable(){
-
 			@Override
 			public void run() {
 				int row = m_gameState.getRow();
@@ -183,6 +181,7 @@ public class GameActivity extends Activity {
 	};
 	public void updateUI() {
 		runOnUiThread(new Runnable(){
+			System.out.println("SSSSSSSSSSasdawdawdadaSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
 
 			@Override
 			public void run() {
@@ -198,10 +197,10 @@ public class GameActivity extends Activity {
 				else
 					message = "Waiting For "+Character.toUpperCase(turn);
 				m_message.setText(message);
-				m_turn.setText(turn);
+				m_turn.setText(String.valueOf(turn));
 				for(int i=0; i<row; i++)
 					for(int j=0; j<col; j++)
-						m_buttons[i][j].setText(board[i][j]);				
+						m_buttons[i][j].setText(String.valueOf(board[i][j]));				
 			}			
 		});
 		
