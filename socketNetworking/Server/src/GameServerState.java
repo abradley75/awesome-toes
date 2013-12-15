@@ -38,11 +38,16 @@ public class GameServerState {
     				m_board[i][j] = 'a';
     			}
     		}
-        	
+        	gameStart = false;
         	gameEnd = false;
-        	turn = 't';
-        	
-        	
+        	turn = 't'; 
+        	playerCt = 0;
+        	dirty = true;
+        	numberOfUpdates = 0;        	
+        }
+        
+        public void resetGame(){
+        	initializeGameState();
         }
         
         public boolean gameReadyToStart() {

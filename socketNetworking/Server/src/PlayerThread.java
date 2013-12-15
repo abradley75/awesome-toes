@@ -41,12 +41,15 @@ public class PlayerThread implements Runnable {
 			waitPlayerMsg();
 			m_gameState.setGameStart(true);
 			playGame();
+			
 			//game is over close client connections and decrement player
-			Server.players--;
-			Server.pThreads.remove(playernum);
+			stop();
+			m_gameState.resetGame();
 			m_outStream.close();
 			m_inStream.close();
 			m_playerSock.close();
+			Server.players--;
+			Server.pThreads.remove(playernum);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -55,6 +58,10 @@ public class PlayerThread implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private void stop() {
+		execute.shutdown();		
 	}
 
 	private void playGame() throws IOException, InterruptedException {

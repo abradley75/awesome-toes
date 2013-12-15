@@ -39,8 +39,9 @@ public class Client implements Runnable{
 				message = null;
 				Thread.sleep(500);//sleep for 500
 			}
+			
 			game.updateUI();
-			game.handleGameEnd();
+			game.handleGameEnd();			
 		} catch (OptionalDataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
