@@ -182,7 +182,7 @@ public class GameActivity extends Activity {
 			String m = m_gameState.getPiece()+":"+Integer.toString(row)+","+Integer.toString(col);
 			
 			try {
-				if(m_gameState.getBoard()[row][col] =='a')
+				if(m_gameState.getBoard()[row][col] =='a' && m_gameState.getTurn()==m_gameState.getPiece())
 					m_client.sendMessage(m);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

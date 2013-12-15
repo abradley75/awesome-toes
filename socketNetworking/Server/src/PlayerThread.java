@@ -135,8 +135,7 @@ public class PlayerThread implements Runnable {
 	private void waitPlayerMsg() throws InterruptedException {
 		while(!m_gameState.gameReadyToStart()){
 			Thread.sleep(1500);//go to sleep until game is ready;
-		}
-		
+		}		
 	}
 
 	private void sendInitialState() throws IOException {
