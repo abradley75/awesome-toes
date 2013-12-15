@@ -34,11 +34,12 @@ public class PlayerThread implements Runnable {
 			sendInitialState();
 			piece = m_gameState.getTurn();
 			m_gameState.incrementPlayer();			 
-			if(m_gameState.getGameState()==-1 && piece == GameServerState.TPLAYER){
+			if(!m_gameState.gameReadyToStart() && piece == GameServerState.TPLAYER){
 				System.out.println("HERE");
 				waitBoardSize();
 			}			
 			waitPlayerMsg();
+			m_gameState.setGameStart(true);
 			playGame();
 			//game is over close client connections and decrement player
 			Server.players--;
@@ -57,23 +58,17 @@ public class PlayerThread implements Runnable {
 	}
 
 	private void playGame() throws IOException, InterruptedException {
-		int playerMove;
-		int prevMove = 0;
-		if(piece == GameServerState.TPLAYER)
-			playerMove = 0;
-		else if(piece == GameServerState.OPLAYER)
-			playerMove = 1;
-		else
-			playerMove = 2;
 		
-		while(m_gameState.getGameState() != 25){
-			if(m_gameState.getGameState()%3== playerMove)
+		while(!m_gameState.isGameEnd()){
+			if(m_gameState.getTurn() == piece)
 				waitForMove();
-			if(m_gameState.getGameState()!=prevMove){
-				prevMove = m_gameState.getGameState();
+			if(m_gameState.isDirty()){
 				sendGameState();
+				if (m_gameState.detectAllUpdated()) {
+					m_gameState.setDirty(false);
+				}
+			}		
 			Thread.sleep(1000);//sleep for awhile since players wont make moves too fast anyway
-			}			
 		}		
 	}
 
@@ -89,7 +84,7 @@ public class PlayerThread implements Runnable {
 					String moveMsg[] = msg.split(":");
 					int row = Integer.parseInt(moveMsg[1].split(",")[0]);
 					int col = Integer.parseInt(moveMsg[1].split(",")[1]);
-					m_gameState.sendMove(piece, row, col);
+					m_gameState.receivedMove(piece, row, col);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -127,9 +122,8 @@ public class PlayerThread implements Runnable {
 	}
 
 	private void waitPlayerMsg() throws InterruptedException {
-		while(m_gameState.getGameState()==-1){
-			m_gameState.updateGameState();
-			Thread.sleep(1000);//go to sleep until game state is not in -1;
+		while(!m_gameState.gameReadyToStart()){
+			Thread.sleep(1000);//go to sleep until game is ready;
 		}
 		
 	}
@@ -144,6 +138,7 @@ public class PlayerThread implements Runnable {
 		m_outStream.reset();
 		m_outStream.writeObject(m_gameState.getGameStateMsg());
 		m_outStream.flush();
+		
 	}
 
 }

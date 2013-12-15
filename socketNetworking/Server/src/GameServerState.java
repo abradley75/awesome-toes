@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class GameServerState {
         
         private static GameServerState m_instance = null;
@@ -6,8 +8,7 @@ public class GameServerState {
         private int board_row = 5; // Size of board
         private int board_col = 5;
         private char turn;
-        private int gameState;
-        private char[][] m_board = new char[MAXBOARDSIZE][MAXBOARDSIZE];// allocate to as max board size
+        private char[][] m_board = new char[MAXBOARDSIZE][MAXBOARDSIZE];
         public final static char BLANKSLOT = 'a';
         public final static char TPLAYER = 't';
         public final static char OPLAYER = 'o';
@@ -15,13 +16,13 @@ public class GameServerState {
         public int playerCt = 0;
         public boolean boardSet = false;
         
+        private boolean dirty = false;
+        private boolean gameEnd = true;
+        private boolean gameStart = false;
+        private int numberOfUpdates = 0 ;
+        
         private GameServerState(){
-        	turn = TPLAYER;
-        	gameState = -1;
-        	
-        	for(int i=0; i< MAXBOARDSIZE; i++)
-        		for(int j=0; j<MAXBOARDSIZE; j++)
-        			m_board[i][j] = 'a';
+        	initializeGameState();
         }
         
         public static GameServerState getInstance(){
@@ -30,9 +31,39 @@ public class GameServerState {
         	return m_instance;
         }
         
+        public void initializeGameState() {
+        	
+        	for(int i=0; i< MAXBOARDSIZE; i++) {
+    			for(int j=0; j< MAXBOARDSIZE; j++) {
+    				m_board[i][j] = 'a';
+    			}
+    		}
+        	
+        	gameEnd = false;
+        	turn = 't';
+        	
+        	
+        }
+        
+        public boolean gameReadyToStart() {
+        	if (playerCt == 3 && boardSet) {
+        		return true;
+        	}
+        	else
+        		return false;
+        }
+        
+        public void setGameStart(boolean in_start) {
+        	this.gameStart = in_start;
+        }
+        
+        public boolean getGameStart() {
+        	return this.gameStart;
+        }
+        
         public String getGameStateMsg(){
         	String gameStateMsg = "";
-        	gameStateMsg+="gameState:"+Integer.toString(gameState)+"\n";
+        	gameStateMsg+="playerCt:"+Integer.toString(playerCt)+"\n";
         	gameStateMsg+="turn:"+turn+"\n";
         	gameStateMsg+="row:"+Integer.toString(board_row)+"\n";
         	gameStateMsg+="col:"+Integer.toString(board_col)+"\n";
@@ -48,7 +79,6 @@ public class GameServerState {
         	return gameStateMsg;
         }
         
-        /*increment player connected, if turn is E, set gamestate to 0*/
         public void incrementPlayer(){
         	if(turn == TPLAYER)
         		turn = OPLAYER;
@@ -56,38 +86,51 @@ public class GameServerState {
         		turn = EPLAYER;
         	else 
         		turn = TPLAYER;
-        	playerCt++;
+        	setDirty(true);
         }
-        
-        public int getGameState(){
-        	return gameState;
-        }
-        
-        public char getTurn(){
-        	return turn;
-        }
-
-		public void updateGameState() {
-			if(playerCt == 3 && boardSet)
-				gameState = 0;
-			
-		}
 
 		public void setBoard(int row, int col) {
 			// TODO Auto-generated method stub
 			board_row = row;
 			board_col = col;
 			boardSet = true;
+			setDirty(true);
 		}
 
-		public void sendMove(char piece, int row, int col) {
-			m_board[row][col] = piece;
-			gameState++;
-			if(turn == TPLAYER)
-        		turn = OPLAYER;
-        	else if(turn == OPLAYER)
-        		turn = EPLAYER;
-        	else 
-        		turn = TPLAYER;			
+		public void receivedMove(char piece, int row, int col) {
+			if(piece == turn) {
+				m_board[row][col] = piece;
+			}
+			setDirty(true);
+		}
+
+		public boolean isDirty() {
+			return dirty;
+		}
+
+		public void setDirty(boolean dirty) {
+			this.dirty = dirty;
+		}
+
+		public boolean isGameEnd() {
+			return gameEnd;
+		}
+
+		public void setGameEnd(boolean gameEnd) {
+			this.gameEnd = gameEnd;
+		}
+
+		public char getTurn() {
+			return turn;
+		}
+
+		public boolean detectAllUpdated() {
+			if( numberOfUpdates == 3) {
+				numberOfUpdates = 0;
+				return true;
+			}
+			else 
+				return false;
+			
 		}
 }
