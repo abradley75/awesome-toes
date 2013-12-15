@@ -46,6 +46,9 @@ public class Client implements Runnable{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}//end of run
 
@@ -65,7 +68,7 @@ public class Client implements Runnable{
 		String piece = splitMsg[1].split(":")[1];
 		System.out.println(piece);
 		
-		if(player==1 && piece.equals("t")){
+		if(player==0 && piece.equals("t")){
 			game.setMessage("SET THE BOARD SIZE");
 			game.enableButtons();			
 		}

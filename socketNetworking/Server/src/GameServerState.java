@@ -86,6 +86,8 @@ public class GameServerState {
         		turn = EPLAYER;
         	else 
         		turn = TPLAYER;
+        	if(playerCt!=3)
+        		playerCt++;
         	setDirty(true);
         }
 
