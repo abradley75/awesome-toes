@@ -31,6 +31,8 @@ public class Client implements Runnable{
 			m_iStream = new ObjectInputStream(m_socket.getInputStream());
 			String message = (String)m_iStream.readObject();
 			parseInitialMessage(message);
+			message = (String)m_iStream.readObject();
+			parseMessage(message);
 			while(!m_gameState.isGameEnd()){			
 				message = (String)m_iStream.readObject();
 				if(message != null)
