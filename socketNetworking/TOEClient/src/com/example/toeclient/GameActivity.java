@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GameActivity extends Activity {
 	//networking stuff
@@ -225,8 +227,23 @@ public class GameActivity extends Activity {
 		
 	}
 	public void handleGameEnd() {
-		// TODO Auto-generated method stub
-		
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				char winner = m_gameState.getWinner();
+				Toast.makeText(GameActivity.this, "Winner is "+winner, Toast.LENGTH_LONG).show();	
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Intent intent = new Intent(GameActivity.this, MainActivity.class);
+	            startActivity(intent);
+			}
+			
+		});	
 	}
 }
 

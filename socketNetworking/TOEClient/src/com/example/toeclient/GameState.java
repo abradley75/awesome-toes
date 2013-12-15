@@ -244,4 +244,29 @@ public class GameState {
     public int getEScore() {
     	return m_eScore;
     }
+    
+    public char getWinner() {
+        char winner = 'a';
+        if(m_tScore == m_oScore && m_tScore == m_eScore)
+                winner = 'a';
+        else if(m_tScore > m_oScore)
+                if(m_tScore > m_eScore)
+                        winner = 't';
+                else if(m_tScore < m_eScore)
+                        winner = 'e';
+                else 
+                        winner = 'a';
+        else if (m_tScore < m_oScore)
+                if(m_oScore > m_eScore)
+                        winner = 'o';
+                else if(m_oScore < m_eScore)
+                        winner = 'e';
+                else 
+                        winner = 'a';
+        else if(m_tScore == m_oScore)
+                if(m_tScore < m_eScore)
+                        winner = 'e';
+                else winner = 'a';
+        return winner;
+}
 }
