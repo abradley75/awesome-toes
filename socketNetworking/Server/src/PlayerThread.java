@@ -12,13 +12,16 @@ public class PlayerThread implements Runnable {
 	private ObjectInputStream m_inStream;
 	private ObjectOutputStream m_outStream;
 	private ExecutorService execute;
+	private ExecutorService execute2;
 	private String msg = "";
 	private char piece;
 	private int playernum;//used for removing form array list
+	private boolean clientReady = false;
 	
 	PlayerThread(GameServerState gameState, Socket playerSock, int players) throws IOException{
 		System.out.println("Client Connected");
 		execute = Executors.newSingleThreadExecutor();
+		execute2 = Executors.newSingleThreadExecutor();
 		m_playerSock = playerSock;
 		m_gameState = gameState;
 		m_outStream = new ObjectOutputStream(m_playerSock.getOutputStream());
@@ -40,7 +43,7 @@ public class PlayerThread implements Runnable {
 			}			
 			waitPlayerMsg();
 			m_gameState.setGameStart(true);
-			sendGameState();
+			waitPlayerReady();
 			playGame();
 			sendGameState();
 			//game is over close client connections and decrement player
@@ -58,6 +61,34 @@ public class PlayerThread implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private void waitPlayerReady() {
+		execute2.submit(new Runnable(){
+			@Override
+			public void run() {
+				try {
+					msg = (String)m_inStream.readObject();
+					if(msg.equals("ready"));
+						clientReady = true;
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+			}			
+		});
+		while(!clientReady){
+			try {
+				Thread.sleep(1500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		execute2.shutdown();
 	}
 
 	private void stop() {

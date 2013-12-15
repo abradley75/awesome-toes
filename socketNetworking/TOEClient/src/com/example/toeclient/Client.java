@@ -31,8 +31,6 @@ public class Client implements Runnable{
 			m_iStream = new ObjectInputStream(m_socket.getInputStream());
 			String message = (String)m_iStream.readObject();
 			parseInitialMessage(message);
-			message = (String)m_iStream.readObject();
-			parseMessage(message);
 			while(!m_gameState.isGameEnd()){			
 				message = (String)m_iStream.readObject();
 				if(message != null)
@@ -61,7 +59,7 @@ public class Client implements Runnable{
 		}
 	}//end of run
 
-	private void parseMessage(String message) {
+	private void parseMessage(String message) throws IOException {
 		// TODO Auto-generated method stub
 		String[] splitMsg = message.split("\\r?\\n");
 		int playerCt = Integer.parseInt(splitMsg[0].split(":")[1]);
@@ -93,8 +91,10 @@ public class Client implements Runnable{
 				parseBoard[i][j] = board.split(",")[ctr].charAt(0);
 				ctr++;
 			}
-		if(m_gameState.setBoardSize(row, col) && gameStartFlag)
+		if(m_gameState.setBoardSize(row, col) && gameStartFlag){
+			m_oStream.writeObject("ready");
 			game.setBoardUI();
+		}
 		if(gameStartFlag){
 			m_gameState.receivedUpdate(turn.charAt(0), parseBoard, gameEndFlag);
 			game.updateUI();

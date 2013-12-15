@@ -13,6 +13,7 @@ public class GameState {
         private int m_tScore, m_oScore, m_eScore;
 
 		private boolean gameEnd;
+		private boolean gameStart;
 		
         public final static char BLANKSLOT = 'a';
         public final static char TPLAYER = 't';
@@ -21,6 +22,9 @@ public class GameState {
         
         private GameState(){
         	initializeGameState();
+        }
+        public boolean isGameStart(){
+        	return gameStart;
         }
         
         public static GameState getInstance(){
@@ -40,7 +44,7 @@ public class GameState {
         	m_tScore = 0;
         	m_oScore = 0;
         	m_eScore = 0;
-        	
+        	gameStart = false;
         	gameEnd = false;
         	m_turn = 't';         	
         }
@@ -99,6 +103,7 @@ public class GameState {
 				board_col = col;
 				boardChanged = true;
 			}
+			gameStart = true;
 			return boardChanged;			
 			
 		}
