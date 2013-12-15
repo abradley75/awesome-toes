@@ -69,7 +69,8 @@ public class PlayerThread implements Runnable {
 				}
 			}		
 			Thread.sleep(1000);//sleep for awhile since players wont make moves too fast anyway
-		}		
+		}
+		sendGameState();
 	}
 
 	private void waitForMove() {
