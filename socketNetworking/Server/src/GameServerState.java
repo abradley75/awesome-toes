@@ -158,4 +158,8 @@ public class GameServerState {
 				return false;
 			
 		}
+		
+		public void incrementUpdates() {
+			numberOfUpdates++;
+		}
 }
