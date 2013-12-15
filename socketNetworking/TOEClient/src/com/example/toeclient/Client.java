@@ -69,6 +69,14 @@ public class Client implements Runnable{
 		
 		String gameEnd = splitMsg[5].split(":")[1];
 		boolean gameEndFlag;
+		boolean gameStartFlag;
+		String gameStart = splitMsg[6].split(":")[1];
+		
+		if(gameStart.equals("true"))
+			gameStartFlag = true;
+		else 
+			gameStartFlag = false;
+		
 		if(gameEnd.equals("true"))
 			gameEndFlag = true;
 		else 
@@ -80,7 +88,7 @@ public class Client implements Runnable{
 				parseBoard[i][j] = board.split(",")[ctr].charAt(0);
 				ctr++;
 			}
-		if(m_gameState.setBoardSize(row, col))
+		if(m_gameState.setBoardSize(row, col) && gameStartFlag)
 			game.setBoardUI();
 		m_gameState.receivedUpdate(turn.charAt(0), parseBoard, gameEndFlag);
 		game.updateUI();

@@ -172,7 +172,8 @@ public class GameActivity extends Activity {
 			String m = "Board:"+Integer.toString(row)+","+Integer.toString(col);
 			
 			try {
-				m_client.sendMessage(m);
+				if(m_gameState.getBoard()[row][col] =='a')
+					m_client.sendMessage(m);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
