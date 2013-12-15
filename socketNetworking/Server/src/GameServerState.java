@@ -76,6 +76,8 @@ public class GameServerState {
         			else
         				gameStateMsg+=","+m_board[i][j];
         	
+        	gameStateMsg += "\ngameEnd:" + String.valueOf(gameEnd);
+        	
         	return gameStateMsg;
         }
         
@@ -115,11 +117,25 @@ public class GameServerState {
 		}
 
 		public boolean isGameEnd() {
-			return gameEnd;
+			gameEnd = checkGameEnd();
+			return this.gameEnd;
 		}
 
 		public void setGameEnd(boolean gameEnd) {
 			this.gameEnd = gameEnd;
+		}
+		
+		public boolean checkGameEnd() {
+			boolean ended = true;
+			for(int i=0; i< board_row; i++) {
+    			for(int j=0; j< board_col; j++) {
+    				if( m_board[i][j] == 'a') {
+    					ended = false;
+    					break;
+    				}
+    			}
+    		}
+			return ended;
 		}
 
 		public char getTurn() {
