@@ -124,7 +124,7 @@ public class GameState {
             
             //loop for row and col scores
             for(int i=0; i<board_row; i++){
-                    for(int j=0; i<board_col; j++){
+                    for(int j=0; j<board_col; j++){
                             //scores for rows
                             if(m_board[i][j] == piece)
                                     if(rowPrev == piece)

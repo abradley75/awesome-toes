@@ -200,10 +200,12 @@ public class GameActivity extends Activity {
 					message = "Waiting For "+Character.toUpperCase(turn);
 				m_message.setText(message);
 				m_turn.setText("Turn: " + String.valueOf(turn));
+				
 				m_gameState.calculateScores();
 				tScore.setText("T Score: " + m_gameState.getTScore());
 				oScore.setText("O Score: " + m_gameState.getOScore());
 				eScore.setText("E Score: " + m_gameState.getEScore());
+				
 				for(int i=0; i<row; i++) {
 					for(int j=0; j<col; j++) {
 						//if(m_buttons[i][j] != null) {

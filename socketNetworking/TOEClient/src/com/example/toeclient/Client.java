@@ -39,7 +39,8 @@ public class Client implements Runnable{
 				message = null;
 				Thread.sleep(500);//sleep for 500
 			}
-			
+			m_iStream.close();
+			m_oStream.close();
 			game.updateUI();
 			game.handleGameEnd();			
 		} catch (OptionalDataException e) {
