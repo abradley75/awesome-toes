@@ -123,6 +123,74 @@ public class GameServerState {
 		
 		return true;
 	}
+	
+	//Updates the current score of the board
+	private void scoreBoard(){
+		char chainLetter = '-';
+		int chainLength = 1;
+		int m_tScoreTemp = 0;
+		int m_oScoreTemp = 0;
+		int m_eScoreTemp = 0;
+		
+		//check vertically
+		for(int i=0; i < BOARDSIZE; i++) {
+			for(int j=0; j < BOARDSIZE; j++) {
+				if (m_board[i][j] != chainLetter && chainLength > 1){ //chain has been broken and its more than just one c
+					switch(chainLetter){
+						case 't':
+							m_tScoreTemp += (chainLength * chainLength);
+						break;
+						case 'o':
+							m_oScoreTemp += (chainLength * chainLength);
+						break;
+						case 'e':
+							m_eScoreTemp += (chainLength * chainLength);
+						break;
+					}
+					
+					chainLetter = m_board[i][j];
+					chainLength = 1;
+				}
+				else{
+					chainLength++;
+				}
+			}
+		}
+		
+		//check horizontally
+		chainLetter = '-';
+		chainLength = 1;
+		for(int i=0; i < BOARDSIZE; i++) {
+			for(int j=0; j < BOARDSIZE; j++) {
+				if (m_board[j][i] != chainLetter && chainLength > 1){ //chain has been broken and its more than just one c
+					switch(chainLetter){
+						case 't':
+							m_tScoreTemp += (chainLength * chainLength);
+						break;
+						case 'o':
+							m_oScoreTemp += (chainLength * chainLength);
+						break;
+						case 'e':
+							m_eScoreTemp += (chainLength * chainLength);
+						break;
+					}
+					
+					chainLetter = m_board[j][i];
+					chainLength = 1;
+				}
+				else{
+					chainLength++;
+				}
+			}
+		}
+		
+		//TODO:check diagonally
+		
+		//Update the scores
+		m_tScore = m_tScoreTemp;
+		m_oScore = m_oScoreTemp;
+		m_eScore = m_eScoreTemp;
+	}
 
 	public UpdatePacket updateClients() {
 		return createUpdatePacket();
