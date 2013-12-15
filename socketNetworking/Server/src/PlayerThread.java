@@ -40,6 +40,7 @@ public class PlayerThread implements Runnable {
 			}			
 			waitPlayerMsg();
 			m_gameState.setGameStart(true);
+			sendGameState();
 			playGame();
 			sendGameState();
 			//game is over close client connections and decrement player
