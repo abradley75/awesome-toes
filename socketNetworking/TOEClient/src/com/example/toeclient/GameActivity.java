@@ -240,14 +240,6 @@ public class GameActivity extends Activity {
 			public void run() {
 				char winner = m_gameState.getWinner();
 				Toast.makeText(GameActivity.this, "Winner is "+winner, Toast.LENGTH_LONG).show();	
-
-				long startTime = System.currentTimeMillis();
-				long elapsedTime = 0L;
-				while(elapsedTime < 5000) {
-					elapsedTime = System.currentTimeMillis() - startTime;
-				}
-				Intent intent = new Intent(GameActivity.this, MainActivity.class);
-	            startActivity(intent);
 			}
 			
 		});	
