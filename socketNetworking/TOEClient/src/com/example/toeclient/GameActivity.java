@@ -7,7 +7,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class GameActivity extends Activity {
@@ -29,6 +29,8 @@ public class GameActivity extends Activity {
 	private Button plus;
 	private Button minus;
 	private Button setBoard;
+	
+	private Button[][] m_buttons;
 	
 	private int size = 5;
 	
@@ -128,6 +130,32 @@ public class GameActivity extends Activity {
 		plus.setEnabled(true);
 		minus.setEnabled(true);
 		setBoard.setEnabled(true);		
-	}			
+	}
+	
+	public void setBoardUI(int row, int col) {
+		m_buttons = new Button[row][col];
+		LinearLayout container = (LinearLayout)findViewById(R.id.boardLayout);
+		for(int i=0; i<row; i++){
+			LinearLayout layoutRow = new LinearLayout(this);
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+			container.addView(layoutRow, lp);
+			for(int j=0; j<col; j++){
+				LinearLayout.LayoutParams bp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+				m_buttons[i][j] = new Button(this);
+				m_buttons[i][j].setText("");
+				m_buttons[i][j].setId(i*10+j);
+				layoutRow.addView(m_buttons[i][j], bp);
+				m_buttons[i][j].setOnClickListener(boardButs);
+			}
+		}		
+	}	
+	
+	View.OnClickListener boardButs = new View.OnClickListener(){
+		@Override
+		public void onClick(View v) {
+			size+=1;
+			boardSize.setText(Integer.toString(size));			
+		}		
+	};
 
 }

@@ -5,8 +5,8 @@ public class GameState {
         private static GameState m_instance = null;
         
         private final int MAXBOARDSIZE = 10;
-        private int board_row = 5; // Size of board
-        private int board_col = 5;
+        private int board_row = 0; // Size of board
+        private int board_col = 0;
         private char turn;
         private char piece;
         private char[][] m_board = new char[MAXBOARDSIZE][MAXBOARDSIZE];
@@ -78,5 +78,16 @@ public class GameState {
 
 		public void setGameEnd(boolean gameEnd) {
 			this.gameEnd = gameEnd;
+		}
+		
+		public boolean setBoardSize(int row, int col){
+			boolean boardChanged = false;
+			if(row!=board_row || col!=board_col){
+				board_row = row;
+				board_col = col;
+				boardChanged = true;
+			}
+			return boardChanged;			
+			
 		}
 }
