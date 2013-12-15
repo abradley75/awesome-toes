@@ -130,9 +130,16 @@ public class GameActivity extends Activity {
 		}		
 	};
 	public void enableButtons() {
-		plus.setEnabled(true);
-		minus.setEnabled(true);
-		setBoard.setEnabled(true);		
+		runOnUiThread(new Runnable(){
+
+			@Override
+			public void run() {
+				plus.setEnabled(true);
+				minus.setEnabled(true);
+				setBoard.setEnabled(true);				
+			}			
+		});
+				
 	}
 	
 	public void setBoardUI() {
