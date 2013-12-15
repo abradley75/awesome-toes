@@ -90,8 +90,10 @@ public class Client implements Runnable{
 			}
 		if(m_gameState.setBoardSize(row, col) && gameStartFlag)
 			game.setBoardUI();
-		m_gameState.receivedUpdate(turn.charAt(0), parseBoard, gameEndFlag);
-		game.updateUI();
+		if(gameStartFlag){
+			m_gameState.receivedUpdate(turn.charAt(0), parseBoard, gameEndFlag);
+			game.updateUI();
+		}
 		
 	}
 

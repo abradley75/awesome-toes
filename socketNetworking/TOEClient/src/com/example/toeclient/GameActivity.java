@@ -137,6 +137,7 @@ public class GameActivity extends Activity {
 		runOnUiThread(new Runnable(){
 			@Override
 			public void run() {
+				m_piece.setText("Your Piece: "+m_gameState.getPiece());
 				int row = m_gameState.getRow();
 				int col = m_gameState.getCol();
 				m_buttons = new Button[row][col];
