@@ -22,8 +22,8 @@ public class GameActivity extends Activity {
 	private TextView oScore;
 	private TextView eScore;
 	
-	private ImageView turn;
-	private ImageView piece;
+	private TextView turn;
+	private TextView piece;
 	
 	private TextView boardSize;
 	private Button plus;
@@ -43,8 +43,8 @@ public class GameActivity extends Activity {
 		oScore = (TextView)findViewById(R.id.oScore);
 		eScore = (TextView)findViewById(R.id.eScore);
 				
-		turn = (ImageView)findViewById(R.id.turnImg);
-		piece = (ImageView)findViewById(R.id.pieceImg);
+		turn = (TextView)findViewById(R.id.turn);
+		piece = (TextView)findViewById(R.id.piece);
 		
 		boardSize = (TextView)findViewById(R.id.boardSize);
 		//ui with events

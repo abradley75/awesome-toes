@@ -54,11 +54,6 @@
 			android:gravity="left"
 			android:text="player turn"
 			android:textAppearance="?android:attr/textAppearanceMedium" /> 
-		<ImageView
-        	android:id="@+id/turnImg"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:src="@drawable/back" />
 		
 		<TextView
 		    android:id="@+id/piece"
@@ -67,12 +62,6 @@
 			android:gravity="left"
 			android:text="your piece"
 			android:textAppearance="?android:attr/textAppearanceMedium" /> 
-			
-		<ImageView
-        	android:id="@+id/pieceImg"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:src="@drawable/back" />
 		
 		<TextView
 		    android:id="@+id/boardSize"
