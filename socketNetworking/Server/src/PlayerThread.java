@@ -72,6 +72,7 @@ public class PlayerThread implements Runnable {
 			if(m_gameState.isDirty()){
 				sendGameState();
 				if (m_gameState.detectAllUpdated()) {
+					System.out.println("ABDEBUG: all updated, dirty to false");
 					m_gameState.setDirty(false);
 				}
 			}		
