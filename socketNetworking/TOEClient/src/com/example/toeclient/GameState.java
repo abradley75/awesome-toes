@@ -133,13 +133,17 @@ public class GameState {
                                             rowCt = 1;
                             else{
                                     if(rowPrev == piece){
-                                            row+=rowCt;
-                                            rowCt=0;
+                                    	if(rowCt!=1){
+                                            row+=rowCt;                                            
+                                    	}
+                                    	rowCt=0;
                                     }                                                
                             }
                             rowPrev = m_board[i][j];
                             if(j==board_col-1){//add and reset score at end of row
-                                    row+=rowCt;
+                                    if(rowCt!=1){
+                                    	row+=rowCt;
+                                    }                                    
                                     rowCt=0;
                                     rowPrev = 'a';
                             }
@@ -152,13 +156,17 @@ public class GameState {
                                             colCt = 1;
                             else{
                                     if(rowPrev == piece){
-                                            col+=colCt;
-                                            colCt=0;
+                                    	if(colCt!=1){
+                                            col+=colCt;                                            
+                                    	}
+                                    	colCt=0;
                                     }                                                
                             }
                             colPrev = m_board[j][i];
                             if(i==board_row-1){//add and reset score at end of column
-                                    col+=colCt;
+                                    if(colCt!=1){
+                                    	col+=colCt;
+                                    }
                                     colCt=0;
                                     colPrev = 'a';
                             }                                
@@ -179,14 +187,18 @@ public class GameState {
                                             majorCt = 1;
                             else{
                                     if(majorPrev == piece){
-                                            majorDiag+=majorCt;
-                                            majorCt=0;
+                                    	if(majorCt!=1){
+                                    		majorDiag+=majorCt;
+                                    	}
+                                        majorCt=0;
                                     }                                                
                             }
                             majorPrev = m_board[c1][c2];
             }
-            majorDiag+=majorCt;
-                    majorCt=0;
+            if(majorCt!=1){
+            	majorDiag+=majorCt;
+            }
+            majorCt=0;
             majorPrev = 'a';
         }
             
@@ -203,13 +215,17 @@ public class GameState {
                                             minorCt = 1;
                             else{
                                     if(minorPrev == piece){
-                                            minorDiag+=majorCt;
-                                            minorCt=0;
+                                    	if(minorCt!=1){
+                                            minorDiag+=minorCt;
+                                    	}
+                                        minorCt=0;
                                     }                                                
                             }
                             minorPrev = m_board[c1][c2];
             }
-            minorDiag+=minorCt;
+            if(minorCt!=1){
+            	minorDiag+=minorCt;
+            }
             minorCt=0;
             minorPrev = 'a';
         }
