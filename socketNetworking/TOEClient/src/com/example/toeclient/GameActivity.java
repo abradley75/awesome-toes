@@ -33,6 +33,7 @@ public class GameActivity extends Activity {
 	private Button[][] m_buttons;
 	
 	private int size = 5;
+	private GameState m_gameState;
 	
 	private String m_dispMessage;
 	@Override
@@ -57,6 +58,7 @@ public class GameActivity extends Activity {
 		plus.setOnClickListener(addSize);
 		minus.setOnClickListener(minusSize);
 		setBoard.setOnClickListener(sendSize);
+		m_gameState = GameState.getInstance();
 		
 		plus.setEnabled(false);
 		minus.setEnabled(false);
@@ -132,22 +134,30 @@ public class GameActivity extends Activity {
 		setBoard.setEnabled(true);		
 	}
 	
-	public void setBoardUI(int row, int col) {
-		m_buttons = new Button[row][col];
-		LinearLayout container = (LinearLayout)findViewById(R.id.boardLayout);
-		for(int i=0; i<row; i++){
-			LinearLayout layoutRow = new LinearLayout(this);
-			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-			container.addView(layoutRow, lp);
-			for(int j=0; j<col; j++){
-				LinearLayout.LayoutParams bp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-				m_buttons[i][j] = new Button(this);
-				m_buttons[i][j].setText("");
-				m_buttons[i][j].setId(i*10+j);
-				layoutRow.addView(m_buttons[i][j], bp);
-				m_buttons[i][j].setOnClickListener(boardButs);
-			}
-		}		
+	public void setBoardUI() {
+		runOnUiThread(new Runnable(){
+
+			@Override
+			public void run() {
+				int row = m_gameState.getRow();
+				int col = m_gameState.getCol();
+				m_buttons = new Button[row][col];
+				LinearLayout container = (LinearLayout)findViewById(R.id.boardLayout);
+				for(int i=0; i<row; i++){
+					LinearLayout layoutRow = new LinearLayout(GameActivity.this);
+					LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+					container.addView(layoutRow, lp);
+					for(int j=0; j<col; j++){
+						LinearLayout.LayoutParams bp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+						m_buttons[i][j] = new Button(GameActivity.this);
+						m_buttons[i][j].setText("");
+						m_buttons[i][j].setId(i*10+j);
+						layoutRow.addView(m_buttons[i][j], bp);
+						m_buttons[i][j].setOnClickListener(boardButs);
+					}
+				}			
+			}			
+		});
 	}	
 	
 	View.OnClickListener boardButs = new View.OnClickListener(){
@@ -157,5 +167,6 @@ public class GameActivity extends Activity {
 			boardSize.setText(Integer.toString(size));			
 		}		
 	};
-
 }
+
+

@@ -72,7 +72,7 @@ public class Client implements Runnable{
 				ctr++;
 			}
 		if(m_gameState.setBoardSize(row, col))
-			game.setBoardUI(row, col);
+			game.setBoardUI();
 		
 	}
 

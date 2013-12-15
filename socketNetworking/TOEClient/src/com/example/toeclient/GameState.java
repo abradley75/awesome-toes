@@ -42,6 +42,13 @@ public class GameState {
         	
         }
         
+        public int getRow(){
+        	return board_row;
+        }
+        public int getCol(){
+        	return board_col;
+        }
+        
         public String toString(){
         	String gameStateMsg = "";
         	gameStateMsg+="piece:"+piece+"\n";
