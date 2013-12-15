@@ -180,8 +180,8 @@ public class GameActivity extends Activity {
 		}		
 	};
 	public void updateUI() {
-		runOnUiThread(new Runnable(){
-			System.out.println("SSSSSSSSSSasdawdawdadaSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+		System.out.println("SSSSSSSSSSasdawdawdadaSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+		runOnUiThread(new Runnable(){	
 
 			@Override
 			public void run() {
