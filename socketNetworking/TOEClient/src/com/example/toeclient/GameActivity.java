@@ -200,13 +200,14 @@ public class GameActivity extends Activity {
 				m_turn.setText(String.valueOf(turn));
 				for(int i=0; i<row; i++) {
 					for(int j=0; j<col; j++) {
-						if(m_buttons[i][j] != null) {
-							System.out.println("ABDEBUG: button is not null, i: " + i + " j: " + j);
-							if(String.valueOf(board[i][j]) != null) {
-								System.out.println("ABDEBUG: Neither is null");
+						//if(m_buttons[i][j] != null) {
+							//System.out.println("ABDEBUG: button is not null, i: " + i + " j: " + j);
+							//if(String.valueOf(board[i][j]) != null) {
+								//System.out.println("ABDEBUG: Neither is null");
+								System.out.println("ABDEBUG: button is not null, i: " + i + " j: " + j + " boardval: " + String.valueOf(board[i][j]));
 								m_buttons[i][j].setText(String.valueOf(board[i][j]));
-							}
-						}	
+							//}
+						//}	
 					}
 				}
 			}			
