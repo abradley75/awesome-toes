@@ -41,8 +41,9 @@ public class Client implements Runnable{
 			}
 			m_iStream.close();
 			m_oStream.close();
+			m_socket.close();
 			game.updateUI();
-			game.handleGameEnd();			
+			game.handleGameEnd();
 		} catch (OptionalDataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
