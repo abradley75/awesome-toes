@@ -198,9 +198,17 @@ public class GameActivity extends Activity {
 					message = "Waiting For "+Character.toUpperCase(turn);
 				m_message.setText(message);
 				m_turn.setText(String.valueOf(turn));
-				for(int i=0; i<row; i++)
-					for(int j=0; j<col; j++)
-						m_buttons[i][j].setText(String.valueOf(board[i][j]));				
+				for(int i=0; i<row; i++) {
+					for(int j=0; j<col; j++) {
+						if(m_buttons[i][j] != null) {
+							System.out.println("ABDEBUG: button is not null, i: " + i + " j: " + j);
+							if(String.valueOf(board[i][j]) != null) {
+								System.out.println("ABDEBUG: Neither is null");
+								m_buttons[i][j].setText(String.valueOf(board[i][j]));
+							}
+						}	
+					}
+				}
 			}			
 		});
 		

@@ -105,6 +105,7 @@ public class GameServerState {
 			if(piece == turn) {
 				m_board[row][col] = piece;
 			}
+			incrementPlayer();
 			setDirty(true);
 		}
 

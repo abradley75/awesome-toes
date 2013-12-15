@@ -68,7 +68,7 @@ public class PlayerThread implements Runnable {
 					m_gameState.setDirty(false);
 				}
 			}		
-			Thread.sleep(1000);//sleep for awhile since players wont make moves too fast anyway
+			Thread.sleep(1500);//sleep for awhile since players wont make moves too fast anyway
 		}
 		sendGameState();
 	}
@@ -124,7 +124,7 @@ public class PlayerThread implements Runnable {
 
 	private void waitPlayerMsg() throws InterruptedException {
 		while(!m_gameState.gameReadyToStart()){
-			Thread.sleep(1000);//go to sleep until game is ready;
+			Thread.sleep(1500);//go to sleep until game is ready;
 		}
 		
 	}
