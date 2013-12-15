@@ -29,5 +29,11 @@ public class Server {
 		}		
 
 	}
+	
+	public static void resetGame(){
+		if(players == 0){
+			GameServerState.getInstance().resetGame();
+		}
+	}
 
 }

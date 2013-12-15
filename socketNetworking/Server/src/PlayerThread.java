@@ -41,16 +41,15 @@ public class PlayerThread implements Runnable {
 			waitPlayerMsg();
 			m_gameState.setGameStart(true);
 			playGame();
-			
+			sendGameState();
 			//game is over close client connections and decrement player
-			stop();
-			m_gameState.resetGame();
+			stop();			
 			m_outStream.close();
 			m_inStream.close();
 			m_playerSock.close();
 			Server.players--;
 			Server.pThreads.remove(playernum);
-			
+			Server.resetGame();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,7 +78,6 @@ public class PlayerThread implements Runnable {
 			}		
 			Thread.sleep(1500);//sleep for awhile since players wont make moves too fast anyway
 		}
-		sendGameState();
 	}
 
 	private void waitForMove() {
