@@ -172,7 +172,7 @@ public class GameActivity extends Activity {
 						row = i;
 						col = j;
 					}
-			String m = "Board:"+Integer.toString(row)+","+Integer.toString(col);
+			String m = m_gameState.getPiece()+":"+Integer.toString(row)+","+Integer.toString(col);
 			
 			try {
 				if(m_gameState.getBoard()[row][col] =='a')
