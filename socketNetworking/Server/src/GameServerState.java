@@ -77,6 +77,7 @@ public class GameServerState {
         				gameStateMsg+=","+m_board[i][j];
         	
         	gameStateMsg += "\ngameEnd:" + String.valueOf(gameEnd);
+        	gameStateMsg += "\ngameStart:" + String.valueOf(gameStart);
         	
         	return gameStateMsg;
         }
