@@ -160,7 +160,7 @@ public class GameState {
                                     else
                                             colCt = 1;
                             else{
-                                    if(rowPrev == piece){
+                                    if(colPrev == piece){
                                     	if(colCt!=1){
                                             col+=colCt;                                            
                                     	}
